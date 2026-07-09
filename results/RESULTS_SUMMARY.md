@@ -1,9 +1,11 @@
 # SkillEye — technical results (RTX 5060 machine run, 2026-07-09)
 
-Generated overnight while the pipeline ran unattended, for direct use in the CTCI 2026
-proposal's Technical Content & Completeness section. Everything below is a real trained
-result on the full THETIS dataset, not a projected target. Three iterations, each keeping
-the previous one for comparison rather than overwriting it:
+Supplementary detail behind the main [`README.md`](../README.md), which is the primary,
+journal-structured write-up (abstract, methodology, results, discussion, references) — read
+that first. This file adds the environment/infrastructure notes and the full v1→v2→v3
+per-iteration history that didn't fit inline there. Everything below is a real trained result
+on the full THETIS dataset, not a projected target. Three iterations, each keeping the previous
+one for comparison rather than overwriting it:
 
 - **v1** — first working model for each task.
 - **v2** — fixed the biggest weaknesses found in v1 (see each section).
