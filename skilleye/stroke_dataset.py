@@ -163,3 +163,31 @@ def subject_disjoint_split(records, val_frac=0.2, seed=42):
     train = [r for r in records if r["subject_id"] not in val_subjects]
     val = [r for r in records if r["subject_id"] in val_subjects]
     return train, val, val_subjects
+
+
+def subject_kfold_split(records, k=5, seed=42):
+    """k-fold split by subject id, stratified by skill_level so every fold keeps a
+    beginner/expert mix. Returns a list of k (train_records, val_records, val_subjects)
+    tuples -- one held-out validation number from a single split can be a lucky (or
+    unlucky) draw of which subjects it happened to hold out; reporting mean/std across
+    folds is the honest, defensible number."""
+    rng = np.random.RandomState(seed)
+
+    subjects_by_level = {"beginner": set(), "expert": set()}
+    for r in records:
+        subjects_by_level[r["skill_level"]].add(r["subject_id"])
+
+    fold_subjects = [set() for _ in range(k)]
+    for level, subjects in subjects_by_level.items():
+        subjects = sorted(subjects)
+        rng.shuffle(subjects)
+        for i, s in enumerate(subjects):
+            fold_subjects[i % k].add(s)
+
+    folds = []
+    for i in range(k):
+        val_subjects = fold_subjects[i]
+        train = [r for r in records if r["subject_id"] not in val_subjects]
+        val = [r for r in records if r["subject_id"] in val_subjects]
+        folds.append((train, val, val_subjects))
+    return folds

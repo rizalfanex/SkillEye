@@ -2,10 +2,17 @@
 
 Generated overnight while the pipeline ran unattended, for direct use in the CTCI 2026
 proposal's Technical Content & Completeness section. Everything below is a real trained
-result on the full THETIS dataset, not a projected target. Updated same night with a second
-iteration (v2) after reviewing v1 — 6-class stroke split (was 5), added velocity features +
-augmentation, and replaced the beginner/expert linear-feature model with a proper ST-GCN.
-v1 numbers are kept alongside for comparison, not deleted.
+result on the full THETIS dataset, not a projected target. Three iterations, each keeping
+the previous one for comparison rather than overwriting it:
+
+- **v1** — first working model for each task.
+- **v2** — fixed the biggest weaknesses found in v1 (see each section).
+- **v3** — 5-fold subject-disjoint cross-validation of v2, because a single held-out split
+  of only 55 subjects can swing several points depending on which subjects land in
+  validation. **v3's mean ± std is the number to cite** — it's the one that holds up if
+  someone asks "is this just a lucky split?".
+
+![Accuracy across iterations](figures/accuracy_comparison.png)
 
 ## 1. Skeleton extraction
 
@@ -44,28 +51,42 @@ only 55 subjects total. Code: `stgcn_model.py`, `stroke_dataset.py`, `train_stro
 keep a beginner/expert mix on both sides) — clip-level splitting would have leaked, since clips
 from the same subject are highly correlated.
 
-**Result: 82.1% held-out validation accuracy** (6-way; majority-class baseline is 25%), 100 epochs,
-up from 77.5% (v1, 5-way, no augmentation/velocity). Metrics: `results/stroke_classifier_v2/metrics.json`.
+**v2: 82.1% held-out accuracy** on a single subject-disjoint split (6-way; majority-class
+baseline is 16.7%), up from v1's 77.5% (5-way, no augmentation/velocity, 25% baseline —
+not directly comparable to v2/v3 since the class count differs).
+
+**v3: 81.7% ± 4.9% across 5 folds** (subject-disjoint, stratified by skill level) — confirms
+v2's number wasn't a lucky split; the ~5-point spread across folds (72.5%–86.1%) is itself
+useful information about how much a single-split number can wobble with only 55 subjects.
+
+![Stroke classifier confusion matrix](figures/stroke_confusion_matrix.png)
+
+Per-class breakdown (v3, summed over all 5 folds' held-out predictions, so every clip is
+counted exactly once):
 
 | class            | precision | recall | f1   | support |
 |-------------------|-----------|--------|------|---------|
-| backhand          | 0.78      | 0.92   | 0.85 | 99      |
-| forehand          | 0.82      | 0.81   | 0.82 | 99      |
-| backhand_volley   | 0.73      | 0.58   | 0.64 | 33      |
-| forehand_volley   | 0.70      | 0.58   | 0.63 | 33      |
-| serve             | 0.93      | 0.91   | 0.92 | 99      |
-| smash             | 0.79      | 0.79   | 0.79 | 33      |
+| backhand          | 0.79      | 0.90   | 0.84 | 495     |
+| forehand          | 0.87      | 0.79   | 0.83 | 495     |
+| backhand_volley   | 0.66      | 0.63   | 0.64 | 165     |
+| forehand_volley   | 0.68      | 0.67   | 0.68 | 165     |
+| serve             | 0.93      | 0.88   | 0.90 | 495     |
+| smash             | 0.73      | 0.78   | 0.75 | 165     |
 
 Serve is strongest (clearly distinct: toss + overhead strike). The two volley classes are still
-weakest, but the *reason* is now visible in the confusion matrix rather than being a merging
-artifact: forehand_volley is confused with forehand (12 of 33 misses) and backhand_volley with
-backhand (9 of 33 misses) — i.e. volleys share arm-swing kinematics with their groundstroke
-counterpart, and the near-frontal 2D camera doesn't capture the footwork/court-position
-difference that would disambiguate them. That's a real, explainable limitation to state in the
-proposal, not a modeling bug — own side-view recordings (already planned, see §4) would likely
-fix this by making the forward-court-position cue visible.
+weakest, but the *reason* is visible in the confusion matrix rather than being a merging
+artifact: forehand_volley confuses mainly with forehand and backhand_volley mainly with backhand
+— i.e. volleys share arm-swing kinematics with their groundstroke counterpart, and the
+near-frontal 2D camera doesn't capture the footwork/court-position difference that would
+disambiguate them. That's a real, explainable limitation to state in the proposal, not a
+modeling bug — own side-view recordings (already planned, see §4) would likely fix this by
+making the forward-court-position cue visible.
 
-*(v1 result — 5-way, no augmentation, kept for comparison: `results/stroke_classifier/metrics.json`.)*
+![Training curves](figures/training_curves.png)
+
+*(v1 result — 5-way, no augmentation: `results/stroke_classifier/metrics.json`. v2:
+`results/stroke_classifier_v2/metrics.json`. v3 full per-fold numbers:
+`results/cross_validation/stroke_classifier_cv.json`.)*
 
 ## 3. Beginner-vs-expert check
 
@@ -82,30 +103,31 @@ read as more dynamic/forceful, not smoother, which should inform how Section 4.7
 correction logic weighs "smoothness"). But per-subject generalization was weak: only 58.6% held-out
 accuracy vs. 54.6% baseline — real signal, not yet a usable classifier.
 
-**v2 (ST-GCN, current)** — `train_beginner_expert_stgcn.py`: same architecture/augmentation as
-the stroke classifier above, trained directly on the beginner/expert label instead of hand-crafted
-aggregate stats, so it can use the actual temporal trajectory. **Result: 76.0% held-out accuracy**
-(vs. 54.6% baseline), a 21-point jump over baseline and a large improvement over v1's 58.6% —
-confirming the signal v1 found was real, just not extractable with 9 summary statistics and a
-linear model. Confusion matrix (rows=true, cols=pred, `[beginner, expert]`):
+**v2 (ST-GCN)** — `train_beginner_expert_stgcn.py`: same architecture/augmentation as the stroke
+classifier above, trained directly on the beginner/expert label instead of hand-crafted aggregate
+stats, so it can use the actual temporal trajectory. Single-split result: 76.0% held-out accuracy
+(vs. 54.6% baseline) — already a large jump over v1's 58.6%, confirming the signal v1 found was
+real, just not extractable with 9 summary statistics and a linear model.
 
-|              | pred beginner | pred expert |
-|--------------|--------------:|------------:|
-| **beginner** | 146           | 70          |
-| **expert**   | 25            | 155         |
+**v3: 82.4% ± 3.8% across 5 folds** — cross-validation came out *higher* than the single v2 split,
+not lower (fold range: 78.5%–89.7%), so this isn't a case of the single split flattering the
+model; if anything v2's split was one of the harder ones.
 
-Recall: beginner 67.6%, expert 86.1%. Precision: beginner 85.4%, expert 68.9%. The model is more
-prone to calling a beginner clip "expert" than the reverse — consistent with skill level being a
-spectrum, not two clean clusters, and THETIS's label being per-subject, not per-swing (a beginner
-subject's better attempts likely look expert-ish, and vice versa).
+![Beginner/expert confusion matrix](figures/skill_confusion_matrix.png)
 
-**Implication for the project**: this is now a genuinely useful early quality-proxy classifier,
-not just a sanity check — 76% on a held-out, subject-disjoint split is a meaningful result to
-cite in the proposal as evidence the core premise (motion quality is learnable from skeleton
-data) works. It's still not a substitute for Path A/B ground truth (subject-level skill label ≠
-per-swing quality score), so both tracks should still proceed, but this de-risks them
-considerably. Full numbers: `results/beginner_expert_stgcn/metrics.json`
-(v1 comparison: `results/beginner_expert_check.json`).
+Per-class breakdown (v3, summed over all 5 folds): beginner precision 0.85 / recall 0.83
+(support 1,116), expert precision 0.79 / recall 0.82 (support 864). Balanced in both directions —
+the single-split v2 model had been noticeably better at expert recall (86%) than beginner recall
+(68%); cross-validation shows that asymmetry doesn't hold up as a general pattern, it was
+specific to which subjects v2 happened to hold out.
+
+**Implication for the project**: this is now a genuinely strong, usable quality-proxy
+classifier, not just a sanity check — 82% cross-validated accuracy on subject-disjoint data is
+solid evidence the core premise (motion quality is learnable from skeleton data) holds. It's
+still not a substitute for Path A/B ground truth (subject-level skill label ≠ per-swing quality
+score), so both tracks should still proceed, but this de-risks them considerably. Full numbers:
+`results/beginner_expert_stgcn/metrics.json` (v2), `results/cross_validation/beginner_expert_cv.json`
+(v3), `results/beginner_expert_check.json` (v1).
 
 ## 4. What's still open (unchanged from HANDOFF.md, not attempted tonight)
 

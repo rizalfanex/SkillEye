@@ -10,18 +10,34 @@ apps (e.g. SwingVision) by focusing on movement quality rather than match outcom
 
 ## Results (THETIS dataset, full run)
 
+Reported as **5-fold, subject-disjoint cross-validation** (mean ± std) — not a single lucky
+split. 55 subjects total; each fold trains on ~44 and validates on the other ~11, held out
+entirely (no subject appears in both train and validation).
+
 - **Skeleton extraction**: 1,980/1,980 clips processed, 0 dropped, 0 failed, across all 12
   THETIS action categories and 55 subjects.
-- **Stroke-type classifier (ST-GCN)**: **82.1% held-out accuracy** on a subject-disjoint split
-  (6 classes: backhand/forehand/backhand_volley/forehand_volley/serve/smash), vs. a 25%
+- **Stroke-type classifier (ST-GCN)**: **81.7% ± 4.9%** held-out accuracy, 6 classes
+  (backhand / forehand / backhand_volley / forehand_volley / serve / smash), vs. a 16.7%
   majority-class baseline.
-- **Beginner-vs-expert classifier (ST-GCN)**: **76.0% held-out accuracy** distinguishing
+- **Beginner-vs-expert classifier (ST-GCN)**: **82.4% ± 3.8%** held-out accuracy distinguishing
   THETIS's beginner/expert-labeled subjects from raw skeleton motion alone, vs. a 54.6%
-  majority-class baseline — a real, usable quality-proxy signal, not just a population-level
-  statistical trend (an earlier hand-crafted-feature version only reached 58.6%).
+  majority-class baseline.
 
-Full write-up with per-class metrics, confusion matrices, and interpretation (including the
-earlier iteration kept for comparison): [`results/RESULTS_SUMMARY.md`](results/RESULTS_SUMMARY.md).
+![Accuracy across iterations, from first working model to cross-validated result](results/figures/accuracy_comparison.png)
+
+<table>
+<tr>
+<td><img src="results/figures/stroke_confusion_matrix.png" alt="Stroke classifier confusion matrix" width="100%"></td>
+<td><img src="results/figures/skill_confusion_matrix.png" alt="Beginner vs expert confusion matrix" width="100%"></td>
+</tr>
+</table>
+
+![Cross-validation training curves, mean plus/minus std across 5 folds](results/figures/training_curves.png)
+
+Full write-up with per-class precision/recall, the reasoning behind each design change across
+iterations, and what the confusion matrices actually mean for the project (e.g. why the volley
+classes are hardest, and what that implies for camera placement):
+[`results/RESULTS_SUMMARY.md`](results/RESULTS_SUMMARY.md).
 
 ## Repo layout
 
@@ -29,18 +45,22 @@ earlier iteration kept for comparison): [`results/RESULTS_SUMMARY.md`](results/R
 skilleye/           pipeline code
   skeleton_pipeline.py       RTMPose output -> single tracked subject -> normalized skeleton
   batch_extract.py           CLI batch runner over a THETIS-shaped folder tree (resumable)
-  stroke_dataset.py          THETIS category merging, subject-disjoint splitting
+  stroke_dataset.py          THETIS category merging, subject-disjoint/k-fold splitting
   stgcn_model.py             compact ST-GCN (COCO-17 skeleton graph)
-  train_stroke_classifier.py stroke classifier training + evaluation (v2: 6 classes, augmented)
-  train_beginner_expert_stgcn.py  beginner/expert ST-GCN training + evaluation (v2)
+  train_stroke_classifier.py      stroke classifier, single split (v2: 6 classes, augmented)
+  train_beginner_expert_stgcn.py  beginner/expert ST-GCN, single split (v2)
+  cross_validate.py          5-fold cross-validation for both classifiers (v3)
+  generate_figures.py        renders results/figures/*.png from the metrics JSONs
   beginner_expert_check.py   beginner/expert hand-crafted-feature sanity check (v1)
   requirements.txt
   README.md                  environment setup notes (incl. GPU-specific gotchas)
 
 results/
-  RESULTS_SUMMARY.md         full technical write-up (v1 and v2)
-  beginner_expert_check.json       v1: hand-crafted features + logistic regression
-  beginner_expert_stgcn/            v2: ST-GCN, trained weights + metrics
+  RESULTS_SUMMARY.md         full technical write-up (v1, v2, v3)
+  figures/                   PNGs embedded above, regenerate with generate_figures.py
+  cross_validation/                 v3: 5-fold CV, per-fold + aggregated metrics
+  beginner_expert_check.json        v1: hand-crafted features + logistic regression
+  beginner_expert_stgcn/            v2: ST-GCN, single split, trained weights + metrics
   stroke_classifier/                v1: 5-class, trained weights + metrics
   stroke_classifier_v2/             v2: 6-class + augmentation, trained weights + metrics
 ```
