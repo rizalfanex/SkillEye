@@ -1,0 +1,79 @@
+{
+  "n_clips": 1980,
+  "feature_stats": {
+    "mean_speed": {
+      "beginner_mean": 0.03589374492258688,
+      "expert_mean": 0.046823709597379935,
+      "p_value": 2.0365675472277255e-77
+    },
+    "std_speed": {
+      "beginner_mean": 0.05134883842858282,
+      "expert_mean": 0.06522379122907296,
+      "p_value": 8.442948275179778e-37
+    },
+    "mean_jerk": {
+      "beginner_mean": 0.041984627095107856,
+      "expert_mean": 0.05475385027023515,
+      "p_value": 4.722008546952513e-71
+    },
+    "l_elbow_angle_var": {
+      "beginner_mean": 0.3677566186769546,
+      "expert_mean": 0.4459520963395739,
+      "p_value": 6.766099140280471e-11
+    },
+    "r_elbow_angle_var": {
+      "beginner_mean": 0.34190951944110826,
+      "expert_mean": 0.3688105987352578,
+      "p_value": 0.015913844232476916
+    },
+    "l_knee_angle_var": {
+      "beginner_mean": 0.08108158682073582,
+      "expert_mean": 0.10948330237308121,
+      "p_value": 1.449310145480371e-05
+    },
+    "r_knee_angle_var": {
+      "beginner_mean": 0.06739237296137764,
+      "expert_mean": 0.09678116317649323,
+      "p_value": 1.1355471736335918e-06
+    },
+    "l_wrist_extension_range": {
+      "beginner_mean": 1.3568425038061689,
+      "expert_mean": 1.4838598496798012,
+      "p_value": 1.4918118073042443e-09
+    },
+    "r_wrist_extension_range": {
+      "beginner_mean": 1.1228817843675185,
+      "expert_mean": 1.2988928629913263,
+      "p_value": 1.1211022306023041e-13
+    }
+  },
+  "logreg": {
+    "baseline_accuracy": 0.5454545454545454,
+    "train_accuracy": 0.7790404040404041,
+    "val_accuracy": 0.5858585858585859,
+    "val_subjects": [
+      9,
+      10,
+      16,
+      18,
+      24,
+      28,
+      32,
+      39,
+      45,
+      51,
+      54
+    ],
+    "coefficients": {
+      "mean_jerk": 2.5559788418338956,
+      "std_speed": -1.8708976846351928,
+      "mean_speed": 0.8136471418664862,
+      "l_wrist_extension_range": 0.29461340775930833,
+      "l_elbow_angle_var": 0.10805798311634415,
+      "r_knee_angle_var": 0.10400571355196565,
+      "l_knee_angle_var": 0.05427885128316906,
+      "r_wrist_extension_range": 0.02090025242555829,
+      "r_elbow_angle_var": 0.006549874631092899
+    }
+  }
+}

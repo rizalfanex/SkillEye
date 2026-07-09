@@ -1,0 +1,4 @@
+rtmlib==0.0.15
+opencv-python==4.13.0.90
+numpy==2.2.6
+onnxruntime-gpu==1.23.2

@@ -1,0 +1,8 @@
+THETIS/
+skeletons/
+skeletons_test/
+handoff/
+__pycache__/
+*.pyc
+.cache/
+.claude/
