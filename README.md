@@ -16,9 +16,11 @@ This document reports the technical work completed to date on the [THETIS](https
 tennis dataset: a validated pose-extraction pipeline (1,980/1,980 clips, 0 failures), a 6-class
 stroke-type classifier (**81.7% ± 4.9%**, 5-fold subject-disjoint cross-validation), and a
 beginner-vs-expert motion-quality proxy classifier (**82.4% ± 3.8%**). Both are real trained
-results on held-out subjects, not projected targets. Section 4 discusses what these results do
-and do not establish, and Section 5 lays out the remaining work toward the full quality-score
-system.
+results on held-out subjects, not projected targets. A rule-based v1 of that quality-score
+system — phase detection, per-joint deviation from expert-clip templates, and generated
+correction suggestions — is implemented and demonstrated through an accompanying Streamlit UI.
+Section 4 discusses what these results do and do not establish, and Section 5 lays out the
+remaining work toward the full quality-score system.
 
 ## 1. Introduction
 
@@ -202,6 +204,45 @@ deviation across folds**, rather than a single split's number, because with only
 single split's held-out accuracy depends materially on *which* subjects happened to be held
 out — the fold-to-fold spread reported in Section 3 is itself informative about that variance.
 
+### 2.6 Quality Scoring System
+
+The proposal's central promised feature -- a per-swing motion-quality score with
+per-joint/phase error detection and rule-based correction suggestions (Section 4.7) -- is
+implemented here as a rule-based comparison against expert-clip statistics, not a learned
+regression model. No coach-rating ground truth exists yet (Path A/B, Section 5), so a
+supervised quality-score model cannot be trained honestly; this is an explicitly-scoped
+interim v1, in the same spirit as the v1->v2->v3 iterations already described for the
+classifiers above.
+
+**Phase detection** (`skilleye/quality/phases.py`): each clip's dominant wrist (whichever
+moves more overall -- a proxy for the hitting arm, since THETIS doesn't label handedness)
+is used to find the contact frame (peak wrist speed, a standard swing-analysis heuristic),
+splitting the clip into three phases: backswing, a short window around contact, and
+follow-through.
+
+**Joint angles** (`skilleye/quality/angles.py`): per phase, four flexion angles
+(left/right elbow, left/right knee) plus a trunk-rotation proxy (shoulder-line vs.
+hip-line angle) are averaged into one scalar per (phase, joint).
+
+**Expert templates** (`skilleye/build_expert_templates.py`, run once offline): for each
+stroke class, the mean and standard deviation of each (phase, joint) scalar across that
+class's expert-labeled clips, computed only from the training side of this project's
+standard subject-disjoint split (Section 2.5) -- never from the held-out validation
+subjects, which remain available as genuinely unseen demo inputs.
+
+**Scoring** (`skilleye/quality/score.py`): a query clip's (phase, joint) scalars are
+z-scored against its predicted stroke's template; |z| > 1.5 is flagged and mapped to a
+fixed coaching-tip sentence, and the overall 0-100 score is a monotonic function of mean
+absolute deviation. `SCORE_SCALE`/`FLAG_THRESHOLD` are sanity-checked (Section 3.3), not
+formally calibrated -- that calibration is exactly what Path A/B ground truth would
+enable.
+
+**Demo UI** (`skilleye/app.py`, Streamlit): pick a stroke category and a sample clip
+(restricted to the held-out validation subjects, so every demo score is computed against
+a template that never saw that subject) and see the skeleton, the existing stroke
+classifier's prediction, the quality score, the per-phase/joint table, and the correction
+suggestions together. Run with `streamlit run app.py` from `skilleye/`.
+
 ## 3. Results
 
 ### 3.1 Stroke Classification
@@ -259,6 +300,28 @@ the cross-validated mean (82.4%) is higher than the single-split number, with fo
 78.5%–89.7% (Table above; per-class breakdown: beginner precision 0.85/recall 0.83, expert
 precision 0.79/recall 0.82, summed over all 5 folds' held-out predictions).
 
+### 3.3 Quality Scoring Smoke Check
+
+No formal ground truth exists yet to validate quality scores against (Section 2.6) --
+this instead checks the one directional claim the system must satisfy to be credible:
+held-out expert clips should score higher on average than held-out beginner clips, per
+stroke class, against that stroke's own expert template.
+
+| stroke | expert mean | beginner mean | experts higher? |
+|---|---:|---:|---|
+| backhand | 89.8 | 86.2 | yes |
+| backhand_volley | 90.9 | 84.6 | yes |
+| forehand | 90.1 | 86.6 | yes |
+| forehand_volley | 88.9 | 77.5 | yes |
+| serve | 87.6 | 87.0 | yes |
+| smash | 87.9 | 87.1 | yes |
+
+Experts scored higher on every stroke with held-out data (`skilleye/smoke_check_quality_scoring.py`).
+This is a sanity check, not a validation -- it confirms the scoring system's direction
+is sane on the same subject-level proxy label used in Section 3.2, not that its absolute
+scores or flagged joints are correct at the level of a real coach's judgment. That
+remains gated on Path A/B ground truth (Section 5).
+
 ## 4. Discussion
 
 ### 4.1 Limitations
@@ -295,6 +358,10 @@ representation in principle, but the production quality-score model will need ei
 per-swing ground truth (real coach ratings, or synthetic perturbation of known-good motion —
 both already planned as Path A/B) or a training signal richer than a subject-level label,
 because Section 3.2's result is a proof of learnability, not a finished quality metric.
+Section 2.6/3.3's rule-based scorer is a further step in that direction -- a working,
+demonstrable system rather than only a proof of concept -- but it is calibrated by a
+sanity check, not by the coach ratings or synthetic ground truth that would let its
+scores be trusted at face value.
 
 ## 5. Conclusion and Future Work
 
@@ -318,9 +385,12 @@ Remaining work, in priority order:
 4. **Path A: synthetic perturbation** of known-good motion (known joint-angle/timing offsets
    injected into skilled-athlete clips) as a complementary, coach-independent ground-truth
    source for the quality-score model.
-5. **The quality-score model itself** (proposal Section 4.7) — regression rather than
-   classification, built on the foundation established here once ground truth from (2) and/or
-   (4) is available.
+5. **A learned quality-score model** (proposal Section 4.7) — Section 2.6/3.3 delivers a
+   working rule-based v1 (phase detection, joint angles, expert-template comparison); once
+   ground truth from (2) and/or (4) is available, that data enables replacing or
+   augmenting the rule-based scorer with a trained regression model, and calibrating
+   `FLAG_THRESHOLD`/`SCORE_SCALE` against real quality judgments instead of a directional
+   sanity check.
 6. **Cross-dataset validation against the Wagner tennis serve dataset** (Section 1.2) — its
    existing serve-quality labels are an external, independently-collected signal that could
    validate whether the quality-relevant patterns found in Section 3.2 generalize beyond THETIS
@@ -341,12 +411,17 @@ skilleye/                          pipeline and modeling code
   beginner_expert_check.py         beginner/expert hand-crafted-feature baseline, v1 (§2.4)
   cross_validate.py                5-fold cross-validation for both classifiers (§2.5)
   generate_figures.py              renders results/figures/*.png from the metrics JSONs
+  quality/                         phase detection, joint angles, template scoring (§2.6)
+  build_expert_templates.py        builds results/quality_templates/templates.json (§2.6)
+  smoke_check_quality_scoring.py   experts-score-higher-than-beginners sanity check (§3.3)
+  app.py                           Streamlit demo UI (§2.6) -- run: streamlit run app.py
   requirements.txt
   README.md                        environment setup notes (incl. GPU-specific gotchas)
 
 results/
   RESULTS_SUMMARY.md                supplementary detail beyond what's inlined above
   figures/                          PNGs embedded above; regenerate with generate_figures.py
+  quality_templates/                templates.json: per-stroke expert (phase, joint) statistics (§2.6)
   cross_validation/                 §3 headline numbers: per-fold + aggregated metrics
   beginner_expert_check.json        v1 (§2.4): hand-crafted features + logistic regression
   beginner_expert_stgcn/            v2 (§2.4): ST-GCN, single split, trained weights + metrics
