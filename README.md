@@ -214,6 +214,8 @@ supervised quality-score model cannot be trained honestly; this is an explicitly
 interim v1, in the same spirit as the v1->v2->v3 iterations already described for the
 classifiers above.
 
+![Example poses at the detected contact frame, one per stroke class](results/figures/stroke_gallery.png)
+
 **Phase detection** (`skilleye/quality/phases.py`): each clip's dominant wrist (whichever
 moves more overall -- a proxy for the hitting arm, since THETIS doesn't label handedness)
 is used to find the contact frame (peak wrist speed, a standard swing-analysis heuristic),
@@ -322,6 +324,17 @@ is sane on the same subject-level proxy label used in Section 3.2, not that its 
 scores or flagged joints are correct at the level of a real coach's judgment. That
 remains gated on Path A/B ground truth (Section 5).
 
+The aggregate numbers above are a directional average -- the actual per-clip output looks
+like this (two real held-out `forehand_volley` clips, the largest expert/beginner gap in
+the table above):
+
+![Quality-scoring example on two real held-out forehand_volley clips](results/figures/quality_comparison_example.png)
+
+The beginner clip's flagged joints are concrete and actionable (left elbow over-extended,
+right elbow under-extended, left knee not bent enough at contact) rather than an opaque
+number -- this is what "rule-based correction suggestions" (proposal Section 4.7) actually
+produces today, not a mockup of what it might eventually say.
+
 ## 4. Discussion
 
 ### 4.1 Limitations
@@ -414,13 +427,14 @@ skilleye/                          pipeline and modeling code
   quality/                         phase detection, joint angles, template scoring (§2.6)
   build_expert_templates.py        builds results/quality_templates/templates.json (§2.6)
   smoke_check_quality_scoring.py   experts-score-higher-than-beginners sanity check (§3.3)
+  generate_qualitative_figures.py  renders the stroke-gallery and quality-comparison examples (§2.6/3.3)
   app.py                           Streamlit demo UI (§2.6) -- run: streamlit run app.py
   requirements.txt
   README.md                        environment setup notes (incl. GPU-specific gotchas)
 
 results/
   RESULTS_SUMMARY.md                supplementary detail beyond what's inlined above
-  figures/                          PNGs embedded above; regenerate with generate_figures.py
+  figures/                          PNGs embedded above; regenerate with generate_figures.py / generate_qualitative_figures.py
   quality_templates/                templates.json: per-stroke expert (phase, joint) statistics (§2.6)
   cross_validation/                 §3 headline numbers: per-fold + aggregated metrics
   beginner_expert_check.json        v1 (§2.4): hand-crafted features + logistic regression
