@@ -45,6 +45,36 @@ consumer scale. The THETIS dataset itself (Gourgari et al., CVPR 2013 workshop) 
 action recognition, not quality assessment — Section 2.1 and 4.1 discuss what that means for
 how it can and cannot be used here.
 
+A useful point of comparison is Wagner's tennis serve dataset (2024, [jasnwag/tennis_serve_dataset](https://github.com/jasnwag/tennis_serve_dataset)),
+which takes a near-opposite set of trade-offs to THETIS: broadcast footage of the 2024 US Open,
+109 professional players, 5,966 serves, with **3D** pose (RTMPose → MotionBERT lifting →
+DTW-aligned) rather than 2D, and — notably — an actual serve-quality classification task
+(84.0% reported), where THETIS offers only the subject-level beginner/expert proxy used in
+Section 2.4/3.2. Table 2 summarizes the contrast:
+
+**Table 2.** Dataset comparison.
+
+| | THETIS (this work) | Wagner tennis serve dataset |
+|---|---|---|
+| Source | controlled gym recording (Kinect) | broadcast video, 2024 US Open |
+| Camera angle | near-frontal | broadcast (side/elevated) |
+| Pose dimensionality | 2D (COCO-17) | 3D (COCO-17, MotionBERT-lifted) |
+| Subjects | 55 (31 beginner, 24 expert) | 109 professional players |
+| Stroke coverage | 12 categories, all strokes | serves only |
+| Clips | 1,980 | 5,966 serves |
+| Quality ground truth | none (subject-level skill label only) | serve-quality labels available |
+| License | dataset's own terms | CC BY 4.0 |
+
+The two datasets are complementary rather than substitutable for this project: THETIS's frontal
+angle and 2D pose match what a consumer phone camera can realistically capture (the deployment
+target), while the serve dataset's 3D pose and side/elevated broadcast angle are closer to what
+the biomechanical joint-angle rules in Section 4.7 of the proposal actually need, and its
+existing quality labels are exactly the kind of ground truth Path A/B (Section 5) is trying to
+establish independently. It is treated here as a comparative reference and a candidate source
+for cross-dataset validation once the 2D pipeline has a 3D-compatible variant, not (yet) as
+training or evaluation data for the models in Section 3 — see Section 5 for that as a concrete
+next step.
+
 ### 1.3 Contributions
 
 1. A validated, resumable pose-extraction pipeline from raw racket-sport video to normalized,
@@ -291,6 +321,12 @@ Remaining work, in priority order:
 5. **The quality-score model itself** (proposal Section 4.7) — regression rather than
    classification, built on the foundation established here once ground truth from (2) and/or
    (4) is available.
+6. **Cross-dataset validation against the Wagner tennis serve dataset** (Section 1.2) — its
+   existing serve-quality labels are an external, independently-collected signal that could
+   validate whether the quality-relevant patterns found in Section 3.2 generalize beyond THETIS
+   and beyond amateur players. This requires extending the 2D pipeline to accept its 3D pose
+   format (or projecting its 3D keypoints to 2D for direct compatibility) — not yet attempted,
+   flagged here as a concrete, scoped next step rather than folded into the results above.
 
 ## 6. Reproducibility
 
@@ -329,3 +365,5 @@ Dataset (not included in this repository — see `skilleye/README.md` for how to
   Skeleton-Based Action Recognition. *AAAI*.
 - Jiang, T., et al. (2023). RTMPose: Real-Time Multi-Person Pose Estimation based on MMPose.
   *arXiv:2303.07399*.
+- Wagner, J. (2024). Tennis Serve Analysis Dataset: 3D Pose Sequences from 2024 US Open Broadcast
+  Video. https://github.com/jasnwag/tennis_serve_dataset (CC BY 4.0).
