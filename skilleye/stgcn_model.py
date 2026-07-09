@@ -86,7 +86,7 @@ class STGCNBlock(nn.Module):
 
 
 class STGCN(nn.Module):
-    def __init__(self, num_classes, in_channels=2, base_channels=32):
+    def __init__(self, num_classes, in_channels=4, base_channels=32):
         super().__init__()
         A = build_adjacency()
         self.data_bn = nn.BatchNorm1d(in_channels * NUM_JOINTS)

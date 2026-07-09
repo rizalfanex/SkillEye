@@ -68,8 +68,8 @@ def main():
     print("train label counts:", Counter(r["stroke"] for r in train_records))
     print("val label counts:  ", Counter(r["stroke"] for r in val_records))
 
-    train_ds = StrokeDataset(train_records)
-    val_ds = StrokeDataset(val_records)
+    train_ds = StrokeDataset(train_records, augment=True)
+    val_ds = StrokeDataset(val_records, augment=False)
     train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True, drop_last=True)
     val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False)
 

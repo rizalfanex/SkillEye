@@ -2,7 +2,10 @@
 
 Generated overnight while the pipeline ran unattended, for direct use in the CTCI 2026
 proposal's Technical Content & Completeness section. Everything below is a real trained
-result on the full THETIS dataset, not a projected target.
+result on the full THETIS dataset, not a projected target. Updated same night with a second
+iteration (v2) after reviewing v1 — 6-class stroke split (was 5), added velocity features +
+augmentation, and replaced the beginner/expert linear-feature model with a proper ST-GCN.
+v1 numbers are kept alongside for comparison, not deleted.
 
 ## 1. Skeleton extraction
 
@@ -25,65 +28,84 @@ this machine independent of the onnxruntime issue. Full detail in memory (`rtx50
 
 ## 2. Stroke-type classifier (ST-GCN)
 
-First concrete trained-model result, per HANDOFF.md priority — merges THETIS's 12 sub-classes
-into 5 strokes (`backhand`, `forehand`, `volley`, `serve`, `smash`; `volley` merges
-forehand_volley + backhand_volley, `serve` merges the three service types).
+First concrete trained-model result, per HANDOFF.md priority. **v2 (current)** keeps
+forehand_volley and backhand_volley as separate classes (6-way: `backhand`, `forehand`,
+`backhand_volley`, `forehand_volley`, `serve`, `smash`; `serve` still merges the three service
+types, which are genuinely one stroke with different spins) — v1 had merged both volleys into
+one label, which was the weakest class (55% recall) precisely because it was blending two
+distinct motions.
 
 **Model**: compact ST-GCN (6 spatio-temporal blocks, COCO-17 skeleton graph, ~32→128 channels),
-trained from scratch, no pretraining. Code: `stgcn_model.py`, `train_stroke_classifier.py`.
+4 input channels (2D position + velocity per joint), trained from scratch. v2 adds label-preserving
+augmentation (left-right mirror, random temporal crop, small coordinate jitter) — worthwhile with
+only 55 subjects total. Code: `stgcn_model.py`, `stroke_dataset.py`, `train_stroke_classifier.py`.
 
 **Split**: subject-disjoint (11 of 55 subjects held out entirely for validation, stratified to
 keep a beginner/expert mix on both sides) — clip-level splitting would have leaked, since clips
 from the same subject are highly correlated.
 
-**Result: 77.5% held-out validation accuracy** (5-way; majority-class baseline is 25%), 60 epochs.
+**Result: 82.1% held-out validation accuracy** (6-way; majority-class baseline is 25%), 100 epochs,
+up from 77.5% (v1, 5-way, no augmentation/velocity). Metrics: `results/stroke_classifier_v2/metrics.json`.
 
-| class    | precision | recall | f1   | support |
-|----------|-----------|--------|------|---------|
-| backhand | 0.74      | 0.83   | 0.78 | 99      |
-| forehand | 0.74      | 0.79   | 0.76 | 99      |
-| volley   | 0.68      | 0.55   | 0.61 | 66      |
-| serve    | 0.92      | 0.85   | 0.88 | 99      |
-| smash    | 0.75      | 0.82   | 0.78 | 33      |
+| class            | precision | recall | f1   | support |
+|-------------------|-----------|--------|------|---------|
+| backhand          | 0.78      | 0.92   | 0.85 | 99      |
+| forehand          | 0.82      | 0.81   | 0.82 | 99      |
+| backhand_volley   | 0.73      | 0.58   | 0.64 | 33      |
+| forehand_volley   | 0.70      | 0.58   | 0.63 | 33      |
+| serve             | 0.93      | 0.91   | 0.92 | 99      |
+| smash             | 0.79      | 0.79   | 0.79 | 33      |
 
-Serve is the strongest class (clearly distinct motion pattern, toss + overhead strike). Volley
-is the weakest — expected, since it merges two visually different motions (forehand volley vs
-backhand volley) into one label; a 6-class split keeping them separate would likely score higher
-if a cleaner number is needed, at the cost of less data per class. Full confusion matrix and
-per-epoch training curve saved at `E:\SkillEye\results\stroke_classifier\metrics.json`.
+Serve is strongest (clearly distinct: toss + overhead strike). The two volley classes are still
+weakest, but the *reason* is now visible in the confusion matrix rather than being a merging
+artifact: forehand_volley is confused with forehand (12 of 33 misses) and backhand_volley with
+backhand (9 of 33 misses) — i.e. volleys share arm-swing kinematics with their groundstroke
+counterpart, and the near-frontal 2D camera doesn't capture the footwork/court-position
+difference that would disambiguate them. That's a real, explainable limitation to state in the
+proposal, not a modeling bug — own side-view recordings (already planned, see §4) would likely
+fix this by making the forward-court-position cue visible.
 
-## 3. Beginner-vs-expert sanity check (cheap pilot)
+*(v1 result — 5-way, no augmentation, kept for comparison: `results/stroke_classifier/metrics.json`.)*
+
+## 3. Beginner-vs-expert check
 
 Per HANDOFF.md priority: before investing in coach recruitment (Path B), check whether THETIS's
 skill-level metadata (p1-p31 beginner, p32-p55 expert — a free but weak quality-label proxy)
-shows *any* detectable signal in the extracted motion data. Code: `beginner_expert_check.py`.
+shows a detectable, *usable* signal in the extracted motion data.
 
-**Method**: 9 hand-crafted motion features per clip (mean/std swing speed, jerk/smoothness,
-elbow and knee joint-angle variance, wrist extension range) — deliberately independent of the
-stroke classifier above, to test the raw normalized skeleton data itself.
+**v1 (hand-crafted features)** — `beginner_expert_check.py`: 9 hand-crafted motion features
+(mean/std swing speed, jerk, elbow/knee joint-angle variance, wrist extension range) fed into
+logistic regression. Established that population-level differences are real and strong (every
+feature differs significantly, Welch's t-test, p<0.02, most p<1e-10, n=1,980) — and notably
+**experts show higher speed/jerk/joint-angle-variance than beginners, not lower** (expert swings
+read as more dynamic/forceful, not smoother, which should inform how Section 4.7's rule-based
+correction logic weighs "smoothness"). But per-subject generalization was weak: only 58.6% held-out
+accuracy vs. 54.6% baseline — real signal, not yet a usable classifier.
 
-**Finding 1 — population-level signal is real and strong.** Every single feature differs
-significantly between beginner and expert clips (Welch's t-test, all p < 0.02, most p < 1e-10
-across n=1,980 clips). Direction is notable and worth flagging in the proposal: **experts show
-higher speed, higher jerk, and higher joint-angle variance than beginners**, not lower — in this
-dataset, expert swings read as more dynamic/forceful rather than "smoother," which runs counter
-to a naive smoothness-only quality heuristic and should inform how Section 4.7's rule-based
-correction logic is designed.
+**v2 (ST-GCN, current)** — `train_beginner_expert_stgcn.py`: same architecture/augmentation as
+the stroke classifier above, trained directly on the beginner/expert label instead of hand-crafted
+aggregate stats, so it can use the actual temporal trajectory. **Result: 76.0% held-out accuracy**
+(vs. 54.6% baseline), a 21-point jump over baseline and a large improvement over v1's 58.6% —
+confirming the signal v1 found was real, just not extractable with 9 summary statistics and a
+linear model. Confusion matrix (rows=true, cols=pred, `[beginner, expert]`):
 
-**Finding 2 — per-subject generalization is weak with simple features.** A logistic regression
-on those 9 features (+ stroke type) reaches 77.9% on training subjects but only **58.6% on
-11 held-out subjects** (baseline 54.6%) — barely better than chance. So: real signal exists in
-aggregate, but hand-crafted features + a linear model don't yet predict skill level for a *new*
-person reliably.
+|              | pred beginner | pred expert |
+|--------------|--------------:|------------:|
+| **beginner** | 146           | 70          |
+| **expert**   | 25            | 155         |
 
-**Implication for the project**: THETIS's skill-level label is a valid weak proxy at the
-population level (justifies the overall project premise that motion quality is measurable from
-skeleton data), but is not sufficient on its own to build the actual per-swing quality-score
-model — supports proceeding with **both** Path A (synthetic perturbation) and Path B (real coach
-ratings) as planned, and suggests the eventual quality model will need either richer temporal
-features than these 9 hand-crafted ones (e.g., the ST-GCN backbone above, fine-tuned) or the
-real coach-rating ground truth to reach practical per-subject accuracy. Full numbers (means,
-p-values, coefficients) at `E:\SkillEye\results\beginner_expert_check.json`.
+Recall: beginner 67.6%, expert 86.1%. Precision: beginner 85.4%, expert 68.9%. The model is more
+prone to calling a beginner clip "expert" than the reverse — consistent with skill level being a
+spectrum, not two clean clusters, and THETIS's label being per-subject, not per-swing (a beginner
+subject's better attempts likely look expert-ish, and vice versa).
+
+**Implication for the project**: this is now a genuinely useful early quality-proxy classifier,
+not just a sanity check — 76% on a held-out, subject-disjoint split is a meaningful result to
+cite in the proposal as evidence the core premise (motion quality is learnable from skeleton
+data) works. It's still not a substitute for Path A/B ground truth (subject-level skill label ≠
+per-swing quality score), so both tracks should still proceed, but this de-risks them
+considerably. Full numbers: `results/beginner_expert_stgcn/metrics.json`
+(v1 comparison: `results/beginner_expert_check.json`).
 
 ## 4. What's still open (unchanged from HANDOFF.md, not attempted tonight)
 
