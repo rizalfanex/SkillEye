@@ -4,10 +4,62 @@
 	(generator_version "10.0")
 	(uuid "e922ced9-cce7-4ffa-8992-2bb79546169b")
 	(paper "A4")
+	(title_block
+		(company "National Taipei University of Technology - Dept. of EECS")
+		(comment 1 "SkillEye")
+		(comment 2 "Designer: Purit Hongjirakul")
+		(comment 3 "https://github.com/rizalfanex/SkillEye")
+	)
 	(lib_symbols)
 	(sheet
+		(at 36.83 69.85)
+		(size 36.83 24.13)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "331d9fae-dc89-4e08-93fe-26225e9367f3")
+		(property "Sheetname" "Regulator"
+			(at 36.83 69.1384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "skilleye_regulator.kicad_sch"
+			(at 36.83 94.5646 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "skilleye_prototype"
+				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
 		(at 36.83 36.83)
-		(size 55.88 29.21)
+		(size 36.83 24.13)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -33,7 +85,7 @@
 			)
 		)
 		(property "Sheetfile" "skilleye_charging.kicad_sch"
-			(at 36.83 66.6246 0)
+			(at 36.83 61.5446 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -47,6 +99,52 @@
 			(project "skilleye_prototype"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 36.83 102.87)
+		(size 36.83 24.13)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "eeb8364d-fb88-4868-b54f-166d620b4179")
+		(property "Sheetname" "MCU"
+			(at 36.83 102.1584 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "skilleye_mcu.kicad_sch"
+			(at 36.83 127.5846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "skilleye_prototype"
+				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
+					(page "4")
 				)
 			)
 		)
