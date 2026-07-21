@@ -6,3 +6,19 @@ __pycache__/
 *.pyc
 .cache/
 .claude/
+
+# KiCad
+*.000
+*.bak
+*.bck
+*~
+_autosave-*
+*-save.pro
+*-save.kicad_pcb
+*-save.kicad_sch
+*.lck
+fp-info-cache
+*-cache.lib
+*-rescue.lib
+*-rescue.dcm
+*.kicad_prl

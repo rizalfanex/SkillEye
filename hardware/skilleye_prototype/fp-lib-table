@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "FS8205A") (type "KiCad") (uri "${KIPRJMOD}/FS8205A") (options "") (descr ""))
+)
