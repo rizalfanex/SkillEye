@@ -2377,6 +2377,16 @@
 	)
 	(wire
 		(pts
+			(xy 195.58 102.87) (xy 198.12 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "123cf4b5-1c49-4ad8-8026-91e90d76ae9b")
+	)
+	(wire
+		(pts
 			(xy 226.06 97.79) (xy 228.6 97.79)
 		)
 		(stroke
@@ -2567,6 +2577,16 @@
 	)
 	(wire
 		(pts
+			(xy 198.12 104.14) (xy 198.12 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87bab194-14db-4460-bfa5-42236f4adebf")
+	)
+	(wire
+		(pts
 			(xy 91.44 102.87) (xy 93.98 102.87)
 		)
 		(stroke
@@ -2737,16 +2757,6 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 102.87) (xy 198.12 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc194696-32dc-4a81-bf77-63c93efd9bee")
-	)
-	(wire
-		(pts
 			(xy 60.96 102.87) (xy 63.5 102.87)
 		)
 		(stroke
@@ -2814,16 +2824,6 @@
 			(justify right bottom)
 		)
 		(uuid "345d3f2f-3b2a-414b-bad5-b7118ed8e610")
-	)
-	(label "PACK-"
-		(at 198.12 102.87 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "5172cca4-11cd-4c93-b34d-14c50828e6bf")
 	)
 	(label "OD"
 		(at 226.06 107.95 180)
@@ -3023,25 +3023,25 @@
 		(dnp no)
 		(uuid "0d49c2f5-161d-42e5-818d-caaffee99e35")
 		(property "Reference" "R4"
-			(at 64.262 98.806 0)
+			(at 63.754 96.774 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.016 1.016)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "1K"
-			(at 68.072 98.806 0)
+			(at 63.754 98.552 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -3067,7 +3067,7 @@
 			)
 		)
 		(property "Description" "Rchrg"
-			(at 66.04 96.52 0)
+			(at 68.326 96.774 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3103,25 +3103,25 @@
 		(dnp no)
 		(uuid "18847a56-e330-4ed1-8364-ad6a40b0e9fa")
 		(property "Reference" "R3"
-			(at 158.242 92.456 0)
+			(at 158.115 90.297 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.016 1.016)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "1K"
-			(at 162.052 92.456 0)
+			(at 157.988 92.202 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -3147,13 +3147,14 @@
 			)
 		)
 		(property "Description" "Rdw"
-			(at 160.02 90.932 0)
+			(at 162.306 90.932 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.016 1.016)
 				)
+				(justify top)
 			)
 		)
 		(pin "1"
@@ -3183,25 +3184,25 @@
 		(dnp no)
 		(uuid "22c3eef8-b615-479a-b8f2-c966272d3700")
 		(property "Reference" "R2"
-			(at 94.742 98.806 0)
+			(at 94.488 96.774 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.016 1.016)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "10K"
-			(at 98.552 98.806 0)
+			(at 94.488 98.552 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -3227,7 +3228,7 @@
 			)
 		)
 		(property "Description" "Rtemp"
-			(at 96.52 96.52 0)
+			(at 99.314 96.774 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3535,7 +3536,7 @@
 		(dnp no)
 		(uuid "4f4015f6-9fcf-456e-8c6c-e648013bef41")
 		(property "Reference" "R5"
-			(at 67.818 104.394 0)
+			(at 64.008 104.902 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3546,7 +3547,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 64.008 104.394 0)
+			(at 64.008 106.68 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3579,7 +3580,7 @@
 			)
 		)
 		(property "Description" "Rstby"
-			(at 66.04 106.68 0)
+			(at 68.58 104.902 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3615,25 +3616,25 @@
 		(dnp no)
 		(uuid "58762b76-eed2-46a9-850f-3ed852a4d32d")
 		(property "Reference" "R6"
-			(at 191.262 101.346 0)
+			(at 191.262 99.06 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.016 1.016)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "2K"
-			(at 195.072 101.346 0)
+			(at 191.135 100.965 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -3659,13 +3660,14 @@
 			)
 		)
 		(property "Description" "Rcs"
-			(at 193.04 99.822 0)
+			(at 195.199 99.695 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.016 1.016)
 				)
+				(justify top)
 			)
 		)
 		(pin "1"
@@ -3852,7 +3854,7 @@
 		(dnp no)
 		(uuid "818f9bc6-fb71-4d22-9fd3-f6f2b3cb4fd9")
 		(property "Reference" "D2"
-			(at 58.42 107.442 0)
+			(at 58.42 105.664 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3862,7 +3864,7 @@
 			)
 		)
 		(property "Value" "GREEN"
-			(at 58.42 105.664 0)
+			(at 58.42 107.442 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4399,6 +4401,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 198.12 104.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a33e2b29-c153-4bcd-84a7-ea88f8e4e129")
+		(property "Reference" "#PWR020"
+			(at 198.12 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 198.12 109.22 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 198.12 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 198.12 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 198.12 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "32bf32b4-2734-4539-b0b4-9d6b0a89ffde")
+		)
+		(instances
+			(project "skilleye_prototype"
+				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
+					(reference "#PWR020")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 110.49 99.06 0)
 		(unit 1)
@@ -4490,7 +4570,7 @@
 		(dnp no)
 		(uuid "af0bf2c2-f952-422c-8688-398240e59a0e")
 		(property "Reference" "R1"
-			(at 98.298 104.394 0)
+			(at 94.488 104.902 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4501,7 +4581,7 @@
 			)
 		)
 		(property "Value" "20K"
-			(at 94.488 104.394 0)
+			(at 94.488 106.68 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4534,7 +4614,7 @@
 			)
 		)
 		(property "Description" "Rprog"
-			(at 96.52 106.68 0)
+			(at 99.06 104.902 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
