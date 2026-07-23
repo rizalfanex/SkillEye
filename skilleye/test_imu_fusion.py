@@ -1,6 +1,7 @@
 import numpy as np
+import torch
 
-from imu_fusion import synthetic_imu_from_skeleton
+from imu_fusion import synthetic_imu_from_skeleton, IMUEncoder, FusedBeginnerExpertModel
 from quality.keypoints import R_WRIST, R_ELBOW
 
 
@@ -73,3 +74,37 @@ def test_gyro_z_angle_wrap_no_spurious_jump():
     imu = synthetic_imu_from_skeleton(kpts)
     # gyro_z[1] should be small (the true rotation ~0.2 rad), not ~2*pi
     assert np.abs(imu[1, 5]) < 0.5, f"gyro_z[1] = {imu[1, 5]}, expected small magnitude"
+
+
+def test_imu_encoder_output_shape():
+    encoder = IMUEncoder()
+    x = torch.randn(4, 6, 64)
+    out = encoder(x)
+    assert out.shape == (4, 32)
+    assert not torch.isnan(out).any()
+
+
+def test_fused_model_output_shape():
+    model = FusedBeginnerExpertModel(num_classes=2)
+    x_skeleton = torch.randn(4, 4, 64, 17)
+    x_imu = torch.randn(4, 6, 64)
+    logits = model(x_skeleton, x_imu)
+    assert logits.shape == (4, 2)
+
+
+def test_fused_model_gradient_reaches_imu_branch():
+    model = FusedBeginnerExpertModel(num_classes=2)
+    x_skeleton = torch.randn(4, 4, 64, 17)
+    x_imu = torch.randn(4, 6, 64)
+    labels = torch.tensor([0, 1, 0, 1])
+
+    logits = model(x_skeleton, x_imu)
+    loss = torch.nn.functional.cross_entropy(logits, labels)
+    loss.backward()
+
+    imu_grad_norms = [
+        p.grad.norm().item() for p in model.imu_branch.parameters() if p.grad is not None
+    ]
+    assert len(imu_grad_norms) > 0
+    assert all(g == g for g in imu_grad_norms)  # no NaNs (NaN != NaN)
+    assert sum(imu_grad_norms) > 0.0
