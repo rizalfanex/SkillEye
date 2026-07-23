@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Charging")
-		(date "2026-07-21")
-		(rev "1.0")
+		(date "2026-07-23")
+		(rev "1.1")
 		(company "National Taipei University of Technology - Dept. of EECS")
 		(comment 1 "SkillEye")
 		(comment 2 "Designer: Purit Hongjirakul")
@@ -3927,7 +3927,7 @@
 		(dnp no)
 		(uuid "51b0c6fa-613d-487a-bf94-d5172c70893e")
 		(property "Reference" "J1"
-			(at 40.132 97.79 0)
+			(at 40.132 96.774 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3937,7 +3937,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 33.528 99.822 0)
+			(at 33.528 98.806 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3968,9 +3968,8 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 41.91 97.79 0)
-			(hide yes)
+		(property "Description" "Cell Connector"
+			(at 34.036 100.838 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
