@@ -18,8 +18,8 @@ from stgcn_model import STGCN, COCO17_EDGES
 from quality.score import score_clip
 
 SKELETONS_DIR = "E:/SkillEye/skeletons"
-TEMPLATES_PATH = "E:/SkillEye/results/quality_templates/templates.json"
-STROKE_MODEL_PATH = "E:/SkillEye/results/stroke_classifier_v2/best_model.pt"
+TEMPLATES_PATH = "E:/SkillEye/ml/results/quality_templates/templates.json"
+STROKE_MODEL_PATH = "E:/SkillEye/ml/results/stroke_classifier_v2/best_model.pt"
 
 
 @st.cache_resource

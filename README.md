@@ -146,7 +146,7 @@ in the gym), so a dedicated tracking step selects a single, temporally consisten
    subject's distance from or position relative to the camera.
 
 Result: **1,980/1,980 clips extracted successfully, 0 dropped, 0 failed**, ~1.4s/clip. Code:
-`skilleye/skeleton_pipeline.py` (steps above), `skilleye/batch_extract.py` (CLI batch runner,
+`ml/skilleye/skeleton_pipeline.py` (steps above), `ml/skilleye/batch_extract.py` (CLI batch runner,
 resumable — skips clips that already have output on disk, so an interrupted run can restart
 without redoing completed work).
 
@@ -165,7 +165,7 @@ global average pooling, linear classification head. Input is a 4-channel tensor 
 frame: 2D position plus its temporal finite-difference (velocity), giving the model direct
 access to motion speed/direction rather than only inferring it across pooled layers. Each clip
 is time-resampled to a fixed 64 frames (linear interpolation) so variable clip lengths (THETIS
-clips range from roughly 2 to 8+ seconds) can be batched. Code: `skilleye/stgcn_model.py`.
+clips range from roughly 2 to 8+ seconds) can be batched. Code: `ml/skilleye/stgcn_model.py`.
 
 **Training**: Adam (lr 1e-3, weight decay 1e-4), cosine-annealed learning rate, class-weighted
 cross-entropy (classes are imbalanced — see Table 1), 80–100 epochs, batch size 32. With only 55
@@ -173,7 +173,7 @@ subjects total, label-preserving data augmentation is applied at train time: lef
 (negate the x-coordinate and swap left/right joint indices — a mirrored forehand is still a
 forehand, just as a left-handed player's would look), random temporal cropping (retain a random
 85–100%-length contiguous sub-window before resampling), and small Gaussian coordinate jitter
-(σ=0.02, in normalized units). Code: `skilleye/train_stroke_classifier.py`.
+(σ=0.02, in normalized units). Code: `ml/skilleye/train_stroke_classifier.py`.
 
 ### 2.4 Beginner-vs-Expert Motion-Quality Proxy Model
 
@@ -182,10 +182,10 @@ representation, a second model is trained on THETIS's beginner/expert subject-le
 (Section 2.1) as a weak proxy for swing quality, ahead of collecting real coach ratings
 (Section 5). Two approaches were tried, reported both for transparency:
 
-- **v1 — hand-crafted features + logistic regression** (`skilleye/beginner_expert_check.py`):
+- **v1 — hand-crafted features + logistic regression** (`ml/skilleye/beginner_expert_check.py`):
   9 interpretable per-clip features (mean/std swing speed, jerk, elbow/knee joint-angle
   variance, wrist extension range) fed into a linear classifier.
-- **v2 — ST-GCN** (`skilleye/train_beginner_expert_stgcn.py`): identical architecture and
+- **v2 — ST-GCN** (`ml/skilleye/train_beginner_expert_stgcn.py`): identical architecture and
   augmentation to Section 2.3, but with a binary beginner/expert output head, trained directly
   on the raw skeleton sequence rather than hand-summarized statistics.
 
@@ -196,7 +196,7 @@ validation sets. THETIS clips from the same subject are highly correlated (same 
 camera, same session), so a clip-level random split would leak subject identity into validation
 and overstate accuracy — the model would partly be recognizing *people*, not strokes or skill.
 
-Headline numbers use **5-fold subject-disjoint cross-validation** (`skilleye/cross_validate.py`):
+Headline numbers use **5-fold subject-disjoint cross-validation** (`ml/skilleye/cross_validate.py`):
 subjects are split into 5 folds, stratified so each fold's held-out group keeps a
 beginner/expert mix; each fold trains a fresh model on the other 4 folds' subjects (~44) and
 evaluates on the held-out fold's subjects (~11). This is reported as **mean ± standard
@@ -214,54 +214,58 @@ supervised quality-score model cannot be trained honestly; this is an explicitly
 interim v1, in the same spirit as the v1->v2->v3 iterations already described for the
 classifiers above.
 
-![Example poses at the detected contact frame, one per stroke class](results/figures/stroke_gallery.png)
+![Example poses at the detected contact frame, one per stroke class](ml/results/figures/stroke_gallery.png)
 
-**Phase detection** (`skilleye/quality/phases.py`): each clip's dominant wrist (whichever
+**Phase detection** (`ml/skilleye/quality/phases.py`): each clip's dominant wrist (whichever
 moves more overall -- a proxy for the hitting arm, since THETIS doesn't label handedness)
 is used to find the contact frame (peak wrist speed, a standard swing-analysis heuristic),
 splitting the clip into three phases: backswing, a short window around contact, and
 follow-through.
 
-**Joint angles** (`skilleye/quality/angles.py`): per phase, four flexion angles
+**Joint angles** (`ml/skilleye/quality/angles.py`): per phase, four flexion angles
 (left/right elbow, left/right knee) plus a trunk-rotation proxy (shoulder-line vs.
 hip-line angle) are averaged into one scalar per (phase, joint).
 
-**Expert templates** (`skilleye/build_expert_templates.py`, run once offline): for each
+**Expert templates** (`ml/skilleye/build_expert_templates.py`, run once offline): for each
 stroke class, the mean and standard deviation of each (phase, joint) scalar across that
 class's expert-labeled clips, computed only from the training side of this project's
 standard subject-disjoint split (Section 2.5) -- never from the held-out validation
 subjects, which remain available as genuinely unseen demo inputs.
 
-**Scoring** (`skilleye/quality/score.py`): a query clip's (phase, joint) scalars are
+**Scoring** (`ml/skilleye/quality/score.py`): a query clip's (phase, joint) scalars are
 z-scored against its predicted stroke's template; |z| > 1.5 is flagged and mapped to a
 fixed coaching-tip sentence, and the overall 0-100 score is a monotonic function of mean
 absolute deviation. `SCORE_SCALE`/`FLAG_THRESHOLD` are sanity-checked (Section 3.3), not
 formally calibrated -- that calibration is exactly what Path A/B ground truth would
 enable.
 
-**Demo UI** (`skilleye/app.py`, Streamlit): pick a stroke category and a sample clip
+**Demo UI** (`ml/skilleye/app.py`, Streamlit): pick a stroke category and a sample clip
 (restricted to the held-out validation subjects, so every demo score is computed against
 a template that never saw that subject) and see the skeleton, the existing stroke
 classifier's prediction, the quality score, the per-phase/joint table, and the correction
-suggestions together. Run with `streamlit run app.py` from `skilleye/`.
+suggestions together. Run with `streamlit run app.py` from `ml/skilleye/`.
 
 ### 2.7 Sensor-Fusion Extension (Prototype)
 
 A team discussion identified a concrete limitation already described in Section 4.1: a
 single frontal 2D camera cannot see racket-face angle or wrist-snap dynamics at contact —
-exactly the kind of high-frequency, off-camera-plane signal a racket-mounted MPU6050
-(accelerometer + gyroscope) would capture directly. No hardware has been acquired yet, so
+exactly the kind of high-frequency, off-camera-plane signal a racket-mounted IMU
+(accelerometer + gyroscope) would capture directly. Hardware design for this is in
+progress on a separate track from the modeling work described here: a rev1.0 PCB schematic
+(ESP32-C6 microcontroller, LSM6DSO 6-axis IMU, battery charging/regulation) is in
+`hardware/skilleye_prototype/` and `docs/schematics/prototype/rev1.0/`. No physical board
+has been assembled and no real sensor data has been collected yet, so the modeling work in
 this section documents an architecture prototype, not a hardware-validated result.
 
-**Architecture** (`skilleye/imu_fusion.py`): `STGCN` is refactored to expose its pooled
-pre-classifier features via `extract_features()` (`skilleye/stgcn_model.py`, backward
+**Architecture** (`ml/skilleye/imu_fusion.py`): `STGCN` is refactored to expose its pooled
+pre-classifier features via `extract_features()` (`ml/skilleye/stgcn_model.py`, backward
 compatible — every existing caller is unaffected). A small `IMUEncoder` (1D-CNN over a
 6-channel accelerometer+gyroscope stream) is fused with that skeleton branch via
 concatenation before one classification head (`FusedBeginnerExpertModel`), targeting the
 beginner/expert distinction specifically, since that is the axis this sensor is meant to
 inform.
 
-**Synthetic data, stated plainly**: because no MPU6050 hardware exists yet,
+**Synthetic data, stated plainly**: because no real sensor data exists yet,
 `synthetic_imu_from_skeleton()` derives a placeholder signal from the skeleton itself
 (wrist acceleration, forearm angular velocity) rather than from a real sensor. This signal
 is, by construction, redundant with information the skeleton branch already has access to
@@ -269,12 +273,15 @@ is, by construction, redundant with information the skeleton branch already has 
 fusion architecture and training loop work end to end, **not an accuracy result**, and its
 numbers must not be cited alongside Section 3.2's cross-validated 82.4% ± 3.8%.
 
-**Path to real data**: a documented collection protocol (MPU6050 + ESP32, ~100-200 Hz
-logging, a tap-based manual sync event between the video and IMU streams, resampled to the
-same fixed frame count skeletons already use) is in
-`docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md` — swapping
-`synthetic_imu_from_skeleton()`'s call site for a real-data loader is the only code change
-needed once hardware and recordings exist.
+**Path to real data**: a documented collection protocol (~100-200 Hz logging, a tap-based
+manual sync event between the video and IMU streams, resampled to the same fixed frame
+count skeletons already use) is in
+`docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md` — written before the
+rev1.0 schematic existed, so it describes a generic MPU6050+ESP32 pairing rather than the
+LSM6DSO+ESP32-C6 now in `hardware/`; the collection method (sampling rate, sync approach)
+still applies unchanged. Swapping `synthetic_imu_from_skeleton()`'s call site for a
+real-data loader is the only code change needed once a physical board and recordings
+exist.
 
 ## 3. Results
 
@@ -283,9 +290,9 @@ needed once hardware and recordings exist.
 **81.7% ± 4.9%** held-out accuracy (6-way; majority-class baseline 16.7%), fold range
 72.5%–86.1%.
 
-![Accuracy across iterations](results/figures/accuracy_comparison.png)
+![Accuracy across iterations](ml/results/figures/accuracy_comparison.png)
 
-![Stroke classifier confusion matrix](results/figures/stroke_confusion_matrix.png)
+![Stroke classifier confusion matrix](ml/results/figures/stroke_confusion_matrix.png)
 
 | class | precision | recall | f1 | support |
 |---|---:|---:|---:|---:|
@@ -303,7 +310,7 @@ shares arm-swing kinematics with its groundstroke counterpart, and the near-fron
 does not capture the footwork/court-position difference (volleys are played closer to the net)
 that would otherwise disambiguate them. This is discussed further in Section 4.1.
 
-![Training curves](results/figures/training_curves.png)
+![Training curves](ml/results/figures/training_curves.png)
 
 ### 3.2 Beginner vs. Expert
 
@@ -316,7 +323,7 @@ that would otherwise disambiguate them. This is discussed further in Section 4.1
 | v2 | ST-GCN on raw skeleton sequence, single split | 76.0% |
 | **v3** | **ST-GCN, 5-fold cross-validation** | **82.4% ± 3.8%** |
 
-![Beginner vs expert confusion matrix](results/figures/skill_confusion_matrix.png)
+![Beginner vs expert confusion matrix](ml/results/figures/skill_confusion_matrix.png)
 
 v1 established that *population-level* differences between beginner and expert clips are real
 and highly significant (Welch's t-test on all 9 features, p<0.02, most p<1e-10, n=1,980) —
@@ -349,7 +356,7 @@ stroke class, against that stroke's own expert template.
 | serve | 87.6 | 87.0 | yes |
 | smash | 87.9 | 87.1 | yes |
 
-Experts scored higher on every stroke with held-out data (`skilleye/smoke_check_quality_scoring.py`).
+Experts scored higher on every stroke with held-out data (`ml/skilleye/smoke_check_quality_scoring.py`).
 This is a sanity check, not a validation -- it confirms the scoring system's direction
 is sane on the same subject-level proxy label used in Section 3.2, not that its absolute
 scores or flagged joints are correct at the level of a real coach's judgment. That
@@ -359,7 +366,7 @@ The aggregate numbers above are a directional average -- the actual per-clip out
 like this (two real held-out `forehand_volley` clips, the largest expert/beginner gap in
 the table above):
 
-![Quality-scoring example on two real held-out forehand_volley clips](results/figures/quality_comparison_example.png)
+![Quality-scoring example on two real held-out forehand_volley clips](ml/results/figures/quality_comparison_example.png)
 
 The beginner clip's flagged joints are concrete and actionable (left elbow over-extended,
 right elbow under-extended, left knee not bent enough at contact) rather than an opaque
@@ -423,12 +430,13 @@ Remaining work, in priority order:
 2. **Path B: coach-rated ground truth** — recruit coaches to blind-rate real swings, to be
    correlated against model output (target r > 0.7). Longest lead time item; should run in
    parallel with, not after, further technical work.
-3. **Own side-view, higher-frame-rate recordings, plus real MPU6050 hardware** — required
-   for the joint-angle-based error-detection rules in Section 4.7, expected to resolve the
-   volley/groundstroke confusion identified in Section 4.1, and needed to move Section
-   2.7's sensor-fusion prototype from synthetic to real data. The collection protocol
-   (hardware, sampling rate, synchronization method) is scoped in
-   `docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md`; once real logs
+3. **Own side-view, higher-frame-rate recordings, plus a physical sensor board** —
+   required for the joint-angle-based error-detection rules in Section 4.7, expected to
+   resolve the volley/groundstroke confusion identified in Section 4.1, and needed to move
+   Section 2.7's sensor-fusion prototype from synthetic to real data. Rev1.0 schematics
+   (ESP32-C6 + LSM6DSO) exist in `hardware/skilleye_prototype/`; assembly, firmware, and
+   the collection protocol (sampling rate, synchronization method) are scoped in
+   `docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md`. Once real logs
    exist, retraining and cross-validating `FusedBeginnerExpertModel` on them — following
    the same 5-fold rigor as Section 3.2 — is the follow-up this prototype sets up for.
 4. **Path A: synthetic perturbation** of known-good motion (known joint-angle/timing offsets
@@ -450,7 +458,7 @@ Remaining work, in priority order:
 ## 6. Reproducibility
 
 ```
-skilleye/                          pipeline and modeling code
+ml/skilleye/                       pipeline and modeling code
   skeleton_pipeline.py             RTMPose output -> tracked subject -> normalized skeleton (§2.2)
   batch_extract.py                 CLI batch runner over a THETIS-shaped folder tree (resumable)
   stroke_dataset.py                category merging (Table 1), subject-disjoint/k-fold splitting
@@ -459,9 +467,9 @@ skilleye/                          pipeline and modeling code
   train_beginner_expert_stgcn.py   beginner/expert ST-GCN, single split (§2.4)
   beginner_expert_check.py         beginner/expert hand-crafted-feature baseline, v1 (§2.4)
   cross_validate.py                5-fold cross-validation for both classifiers (§2.5)
-  generate_figures.py              renders results/figures/*.png from the metrics JSONs
+  generate_figures.py              renders ml/results/figures/*.png from the metrics JSONs
   quality/                         phase detection, joint angles, template scoring (§2.6)
-  build_expert_templates.py        builds results/quality_templates/templates.json (§2.6)
+  build_expert_templates.py        builds ml/results/quality_templates/templates.json (§2.6)
   smoke_check_quality_scoring.py   experts-score-higher-than-beginners sanity check (§3.3)
   generate_qualitative_figures.py  renders the stroke-gallery and quality-comparison examples (§2.6/3.3)
   app.py                           Streamlit demo UI (§2.6) -- run: streamlit run app.py
@@ -470,7 +478,7 @@ skilleye/                          pipeline and modeling code
   requirements.txt
   README.md                        environment setup notes (incl. GPU-specific gotchas)
 
-results/
+ml/results/
   RESULTS_SUMMARY.md                supplementary detail beyond what's inlined above
   figures/                          PNGs embedded above; regenerate with generate_figures.py / generate_qualitative_figures.py
   quality_templates/                templates.json: per-stroke expert (phase, joint) statistics (§2.6)
@@ -480,9 +488,13 @@ results/
   beginner_expert_stgcn/            v2 (§2.4): ST-GCN, single split, trained weights + metrics
   stroke_classifier/                early 5-class iteration, kept for reference
   stroke_classifier_v2/             6-class + augmentation, single split, trained weights + metrics
+
+hardware/skilleye_prototype/       KiCad rev1.0 PCB project (§2.7): ESP32-C6 + LSM6DSO IMU,
+                                    battery charging/regulation -- schematic only, not yet built
+docs/schematics/prototype/rev1.0/  rendered schematic PDFs/SVGs for the board above
 ```
 
-Dataset (not included in this repository — see `skilleye/README.md` for how to fetch it):
+Dataset (not included in this repository — see `ml/skilleye/README.md` for how to fetch it):
 [THETIS](https://github.com/THETIS-dataset/dataset), `VIDEO_RGB` + `papers` subsets only.
 
 ## References

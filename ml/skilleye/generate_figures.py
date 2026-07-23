@@ -6,7 +6,7 @@ no rainbow colormaps, direct labels instead of a legend where there's only
 one series per panel).
 
 Usage:
-    python generate_figures.py --out E:/SkillEye/results/figures
+    python generate_figures.py --out E:/SkillEye/ml/results/figures
 """
 
 import argparse
@@ -148,8 +148,8 @@ def fig_training_curves(out_path, stroke_histories, skill_histories):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--results", default="E:/SkillEye/results")
-    ap.add_argument("--out", default="E:/SkillEye/results/figures")
+    ap.add_argument("--results", default="E:/SkillEye/ml/results")
+    ap.add_argument("--out", default="E:/SkillEye/ml/results/figures")
     args = ap.parse_args()
 
     results = Path(args.results)

@@ -3,7 +3,7 @@ Train the ST-GCN stroke-type classifier on extracted THETIS skeletons.
 
 Usage:
     python train_stroke_classifier.py --skeletons E:/SkillEye/skeletons \
-        --out E:/SkillEye/results/stroke_classifier
+        --out E:/SkillEye/ml/results/stroke_classifier
 """
 
 import argparse

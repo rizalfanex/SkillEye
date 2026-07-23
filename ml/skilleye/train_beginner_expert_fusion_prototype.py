@@ -15,7 +15,7 @@ modifies results/beginner_expert_stgcn/ or results/cross_validation/.
 
 Usage:
     python train_beginner_expert_fusion_prototype.py --skeletons E:/SkillEye/skeletons \
-        --out E:/SkillEye/results/imu_fusion_prototype
+        --out E:/SkillEye/ml/results/imu_fusion_prototype
 """
 import argparse
 import json
