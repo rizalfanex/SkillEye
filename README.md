@@ -245,6 +245,17 @@ a template that never saw that subject) and see the skeleton, the existing strok
 classifier's prediction, the quality score, the per-phase/joint table, and the correction
 suggestions together. Run with `streamlit run app.py` from `ml/skilleye/`.
 
+**AI-generated explanation (optional)**: a "Generate AI explanation" button in the demo
+UI rewrites the already-flagged deviations above into one natural coaching paragraph via
+an LLM (NVIDIA's build.nvidia.com API). The LLM is only ever given the (phase, joint,
+z-score) rows the rule-based system already flagged — it never inspects raw angles or
+introduces a new diagnosis — so this is a communication layer over the existing,
+smoke-checked scoring system, not a new source of truth. It requires an `NVIDIA_API_KEY`
+environment variable; without one (or if the API call fails for any reason), the button
+falls back to a short warning and the rule-based suggestions list above remains the
+result, so the demo never depends on network access to function. Design:
+`docs/superpowers/specs/2026-07-23-llm-correction-explainer-design.md`.
+
 ### 2.7 Sensor-Fusion Extension (Prototype)
 
 A team discussion identified a concrete limitation already described in Section 4.1: a
@@ -486,6 +497,7 @@ ml/skilleye/                       pipeline and modeling code
   smoke_check_quality_scoring.py   experts-score-higher-than-beginners sanity check (§3.3)
   generate_qualitative_figures.py  renders the stroke-gallery and quality-comparison examples (§2.6/3.3)
   app.py                           Streamlit demo UI (§2.6) -- run: streamlit run app.py
+  quality/llm_explainer.py         optional LLM-generated correction paragraphs (§2.6, needs NVIDIA_API_KEY)
   imu_fusion.py                    synthetic IMU signal + fusion model prototype (§2.7)
   train_beginner_expert_fusion_prototype.py   trains the fusion prototype (synthetic data, §2.7)
   requirements.txt
