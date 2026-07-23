@@ -1,0 +1,32 @@
+{
+  "note": "PROTOTYPE ONLY: trained on synthetic skeleton-derived IMU data, not real MPU6050 hardware. val_acc_NOT_A_BENCHMARK is a code-path sanity check (loss should decrease over epochs), not a validated accuracy result -- see docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md.",
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.5801985111771798,
+      "val_acc_NOT_A_BENCHMARK": 0.648989898989899
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5146026647820765,
+      "val_acc_NOT_A_BENCHMARK": 0.4772727272727273
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.46969277883062555,
+      "val_acc_NOT_A_BENCHMARK": 0.6363636363636364
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.49101561916117764,
+      "val_acc_NOT_A_BENCHMARK": 0.6818181818181818
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.46095889806747437,
+      "val_acc_NOT_A_BENCHMARK": 0.6388888888888888
+    }
+  ],
+  "train_clips": 1584,
+  "val_clips": 396
+}
