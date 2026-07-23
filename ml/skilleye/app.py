@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from stroke_dataset import load_records, STROKE_CLASSES, resample_time, add_velocity
 from stgcn_model import STGCN, COCO17_EDGES
 from quality.score import score_clip
+from quality.llm_explainer import generate_explanation, LLMExplanationError
 
 SKELETONS_DIR = "E:/SkillEye/skeletons"
 TEMPLATES_PATH = "E:/SkillEye/ml/results/quality_templates/templates.json"
@@ -53,6 +54,11 @@ def predict_stroke(model, kpts):
         probs = torch.softmax(logits, dim=1)[0]
     pred_idx = int(probs.argmax())
     return STROKE_CLASSES[pred_idx], float(probs[pred_idx])
+
+
+@st.cache_data
+def cached_llm_explanation(stroke, table):
+    return generate_explanation(stroke, table)
 
 
 def render_skeleton_frame(kpts, frame_idx):
@@ -122,6 +128,15 @@ def main():
                 st.write(f"- {s}")
         else:
             st.write("No significant deviations flagged against the expert template.")
+
+        if st.button("Generate AI explanation"):
+            try:
+                explanation = cached_llm_explanation(pred_stroke, result["table"])
+                st.info(explanation)
+            except LLMExplanationError as e:
+                st.warning(
+                    "AI explanation unavailable -- showing the rule-based suggestions "
+                    f"above instead. ({e})")
 
 
 if __name__ == "__main__":
