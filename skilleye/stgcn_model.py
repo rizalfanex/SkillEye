@@ -101,8 +101,8 @@ class STGCN(nn.Module):
         ])
         self.fc = nn.Linear(c * 4, num_classes)
 
-    def forward(self, x):
-        # x: (N, C, T, V)
+    def extract_features(self, x):
+        # x: (N, C, T, V) -> (N, base_channels*4) pooled feature vector
         N, C, T, V = x.shape
         x = x.permute(0, 1, 3, 2).reshape(N, C * V, T)
         x = self.data_bn(x)
@@ -111,5 +111,7 @@ class STGCN(nn.Module):
         for block in self.blocks:
             x = block(x)
 
-        x = x.mean(dim=[2, 3])  # global average pool over T, V
-        return self.fc(x)
+        return x.mean(dim=[2, 3])  # global average pool over T, V
+
+    def forward(self, x):
+        return self.fc(self.extract_features(x))
