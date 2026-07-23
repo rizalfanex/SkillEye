@@ -250,17 +250,31 @@ suggestions together. Run with `streamlit run app.py` from `ml/skilleye/`.
 A team discussion identified a concrete limitation already described in Section 4.1: a
 single frontal 2D camera cannot see racket-face angle or wrist-snap dynamics at contact —
 exactly the kind of high-frequency, off-camera-plane signal a racket-mounted IMU
-(accelerometer + gyroscope) would capture directly. Hardware design for this is in
-progress on a separate track from the modeling work described here: a rev1.0 PCB schematic
-(ESP32-C6 microcontroller, LSM6DSO 6-axis IMU, battery charging/regulation) is in
-`hardware/skilleye_prototype/` and `docs/schematics/prototype/rev1.0/`. No physical board
-has been assembled and no real sensor data has been collected yet, so the modeling work in
-this section documents an architecture prototype, not a hardware-validated result.
+(accelerometer + gyroscope) would capture directly. This section covers both halves of
+that work: the hardware (designed by a teammate, in parallel with everything else in this
+document) and the software fusion prototype that will eventually consume its data.
 
-**Architecture** (`ml/skilleye/imu_fusion.py`): `STGCN` is refactored to expose its pooled
-pre-classifier features via `extract_features()` (`ml/skilleye/stgcn_model.py`, backward
-compatible — every existing caller is unaffected). A small `IMUEncoder` (1D-CNN over a
-6-channel accelerometer+gyroscope stream) is fused with that skeleton branch via
+**Hardware — rev1.0 schematics** (designed by [@kyriosaa](https://github.com/kyriosaa)):
+an ESP32-C6-WROOM-1 microcontroller paired with an ST LSM6DSO 6-axis IMU
+(accelerometer + gyroscope) for sensing, a TP4056/DW01A/FS8205A single-cell Li-ion
+charging and protection circuit, and an HT7833 regulator for the board's 3.3V rail.
+Full KiCad project: `hardware/skilleye_prototype/` (schematics, PCB layout, component
+libraries, datasheets); rendered schematic sheets below, source at
+`docs/schematics/prototype/rev1.0/`.
+
+| Charging | MCU + IMU | Regulator |
+|---|---|---|
+| ![Charging schematic](docs/schematics/prototype/rev1.0/skilleye_prototype-Charging.svg) | ![MCU and IMU schematic](docs/schematics/prototype/rev1.0/skilleye_prototype-MCU.svg) | ![Regulator schematic](docs/schematics/prototype/rev1.0/skilleye_prototype-Regulator.svg) |
+
+This is schematic-complete design work, not yet a built board: no physical prototype has
+been assembled, no firmware has been written, and no real sensor data has been collected.
+The modeling work below is written accordingly — it does not depend on or wait for the
+physical board, and does not claim to have used it.
+
+**Software architecture** (`ml/skilleye/imu_fusion.py`): `STGCN` is refactored to expose
+its pooled pre-classifier features via `extract_features()` (`ml/skilleye/stgcn_model.py`,
+backward compatible — every existing caller is unaffected). A small `IMUEncoder` (1D-CNN
+over a 6-channel accelerometer+gyroscope stream) is fused with that skeleton branch via
 concatenation before one classification head (`FusedBeginnerExpertModel`), targeting the
 beginner/expert distinction specifically, since that is the axis this sensor is meant to
 inform.
@@ -278,10 +292,9 @@ manual sync event between the video and IMU streams, resampled to the same fixed
 count skeletons already use) is in
 `docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md` — written before the
 rev1.0 schematic existed, so it describes a generic MPU6050+ESP32 pairing rather than the
-LSM6DSO+ESP32-C6 now in `hardware/`; the collection method (sampling rate, sync approach)
-still applies unchanged. Swapping `synthetic_imu_from_skeleton()`'s call site for a
-real-data loader is the only code change needed once a physical board and recordings
-exist.
+LSM6DSO+ESP32-C6 above; the collection method (sampling rate, sync approach) still applies
+unchanged. Swapping `synthetic_imu_from_skeleton()`'s call site for a real-data loader is
+the only code change needed once the board above is built and recordings exist.
 
 ## 3. Results
 
