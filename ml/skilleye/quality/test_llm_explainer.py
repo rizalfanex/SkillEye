@@ -25,3 +25,61 @@ def test_build_explanation_prompt_no_flags_gives_positive_prompt():
     prompt = build_explanation_prompt("forehand", NO_FLAGS_TABLE)
     assert "no significant deviations" in prompt
     assert "left elbow" not in prompt
+
+
+import pytest
+import requests
+
+from quality.llm_explainer import generate_explanation, LLMExplanationError
+
+
+class FakeResponse:
+    def __init__(self, status_code, json_data=None, text=""):
+        self.status_code = status_code
+        self._json_data = json_data
+        self.text = text
+
+    def json(self):
+        return self._json_data
+
+
+def test_generate_explanation_success_path():
+    def fake_post(url, json, headers, timeout):
+        return FakeResponse(200, {"choices": [{"message": {"content": " Great swing! "}}]})
+
+    result = generate_explanation("forehand", FLAGGED_TABLE, api_key="fake-key", post_fn=fake_post)
+    assert result == "Great swing!"
+
+
+def test_generate_explanation_raises_on_non_200():
+    def fake_post(url, json, headers, timeout):
+        return FakeResponse(500, text="internal error")
+
+    with pytest.raises(LLMExplanationError):
+        generate_explanation("forehand", FLAGGED_TABLE, api_key="fake-key", post_fn=fake_post)
+
+
+def test_generate_explanation_raises_on_network_error():
+    def fake_post(url, json, headers, timeout):
+        raise requests.ConnectionError("no network")
+
+    with pytest.raises(LLMExplanationError):
+        generate_explanation("forehand", FLAGGED_TABLE, api_key="fake-key", post_fn=fake_post)
+
+
+def test_generate_explanation_raises_on_unexpected_response_shape():
+    def fake_post(url, json, headers, timeout):
+        return FakeResponse(200, {"unexpected": "shape"})
+
+    with pytest.raises(LLMExplanationError):
+        generate_explanation("forehand", FLAGGED_TABLE, api_key="fake-key", post_fn=fake_post)
+
+
+def test_generate_explanation_raises_without_api_key(monkeypatch):
+    monkeypatch.delenv("NVIDIA_API_KEY", raising=False)
+
+    def fake_post(url, json, headers, timeout):
+        raise AssertionError("post_fn should never be called without an API key")
+
+    with pytest.raises(LLMExplanationError):
+        generate_explanation("forehand", FLAGGED_TABLE, api_key=None, post_fn=fake_post)

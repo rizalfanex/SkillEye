@@ -10,6 +10,10 @@ source of truth. See docs/superpowers/specs/2026-07-23-llm-correction-explainer-
 No API key exists yet; set NVIDIA_API_KEY in the environment to use this feature.
 Every function here is fully testable without one (see test_llm_explainer.py).
 """
+import os
+
+import requests
+
 from quality.score import JOINT_DISPLAY_NAMES, PHASE_DISPLAY_NAMES
 
 
@@ -47,3 +51,49 @@ def build_explanation_prompt(stroke, table):
         "advice. Use ONLY the deviations listed above -- do not mention any other "
         "joint or phase, and do not invent any deviation not listed."
     )
+
+
+NVIDIA_API_BASE = "https://integrate.api.nvidia.com/v1/chat/completions"
+MODEL_NAME = "meta/llama-3.1-8b-instruct"
+API_KEY_ENV_VAR = "NVIDIA_API_KEY"
+
+
+class LLMExplanationError(Exception):
+    """Raised for any failure generating an LLM explanation -- missing API key,
+    network error, timeout, non-200 response, or an unexpected response shape.
+    Callers catch this one type and fall back to the existing rule-based
+    suggestions list; they never need to catch requests exceptions directly."""
+
+
+def generate_explanation(stroke, table, api_key=None, timeout=8.0, post_fn=requests.post):
+    """Returns a generated paragraph (str). Raises LLMExplanationError on any
+    failure -- missing key, network error, timeout, non-200 response, or an
+    unexpected response shape. post_fn is injectable so tests never make a
+    real network call or need a real key."""
+    key = api_key or os.environ.get(API_KEY_ENV_VAR)
+    if not key:
+        raise LLMExplanationError(
+            f"{API_KEY_ENV_VAR} is not set -- cannot generate an AI explanation.")
+
+    prompt = build_explanation_prompt(stroke, table)
+    payload = {
+        "model": MODEL_NAME,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.5,
+        "max_tokens": 200,
+    }
+    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+
+    try:
+        response = post_fn(NVIDIA_API_BASE, json=payload, headers=headers, timeout=timeout)
+    except requests.RequestException as exc:
+        raise LLMExplanationError(f"request to NVIDIA API failed: {exc}") from exc
+
+    if response.status_code != 200:
+        raise LLMExplanationError(
+            f"NVIDIA API returned status {response.status_code}: {response.text}")
+
+    try:
+        return response.json()["choices"][0]["message"]["content"].strip()
+    except (KeyError, IndexError, TypeError) as exc:
+        raise LLMExplanationError(f"unexpected response shape from NVIDIA API: {exc}") from exc
