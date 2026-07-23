@@ -121,9 +121,12 @@ skeleton JSON (existing)
 
 ## Error handling
 
-- Clips too short for a stable finite-difference (fewer than 3 frames): reuse the same
-  fallback already in `quality/phases.py` (contact frame defaults to the midpoint) so
-  `synthetic_imu_from_skeleton` never divides by a degenerate window.
+- `synthetic_imu_from_skeleton` uses only finite differences (subtraction), never
+  division or windowing — degenerate short clips (`T` = 0, 1, or 2) fall out of numpy's
+  slicing semantics as all-zero or minimal-length output, not a crash. No special-cased
+  fallback is needed (verified: `quality.phases.dominant_wrist_index`, which this function
+  calls, is already exercised at `T=0` by its own existing tests and has the same
+  slicing-based safety).
 - No new failure modes for real hardware data are handled here — that loader doesn't
   exist yet and is out of scope until hardware exists (see Out of scope).
 
