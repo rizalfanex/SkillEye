@@ -75,19 +75,20 @@ def generate_explanation(stroke, table, api_key=None, timeout=8.0, post_fn=reque
         raise LLMExplanationError(
             f"{API_KEY_ENV_VAR} is not set -- cannot generate an AI explanation.")
 
-    prompt = build_explanation_prompt(stroke, table)
-    payload = {
-        "model": MODEL_NAME,
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.5,
-        "max_tokens": 200,
-    }
-    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
-
     try:
+        prompt = build_explanation_prompt(stroke, table)
+        payload = {
+            "model": MODEL_NAME,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.5,
+            "max_tokens": 200,
+        }
+        headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
         response = post_fn(NVIDIA_API_BASE, json=payload, headers=headers, timeout=timeout)
     except requests.RequestException as exc:
         raise LLMExplanationError(f"request to NVIDIA API failed: {exc}") from exc
+    except Exception as exc:
+        raise LLMExplanationError(f"failed to build request or reach NVIDIA API: {exc}") from exc
 
     if response.status_code != 200:
         raise LLMExplanationError(
