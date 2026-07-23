@@ -50,3 +50,26 @@ def test_static_clip_gives_all_zero_signal():
     kpts = np.zeros((64, 17, 2), dtype=np.float32)
     imu = synthetic_imu_from_skeleton(kpts)
     assert np.all(imu == 0.0)
+
+
+def test_gyro_z_angle_wrap_no_spurious_jump():
+    """Regression test for branch-cut crossing in gyro_z computation.
+    Forearm angle crosses from just under +pi to just under -pi
+    (small true rotation, but would spike to ~2*pi without wrapping fix).
+    """
+    kpts = np.zeros((2, 17, 2), dtype=np.float32)
+    # Elbow at origin
+    kpts[:, R_ELBOW, 0] = 0.0
+    kpts[:, R_ELBOW, 1] = 0.0
+    # Wrist: frame 0 at angle just under +pi, frame 1 at angle just under -pi
+    # This is a small rotation of ~0.2 rad across the wrap
+    angle_0 = np.pi - 0.1
+    angle_1 = -np.pi + 0.1
+    kpts[0, R_WRIST, 0] = np.cos(angle_0)
+    kpts[0, R_WRIST, 1] = np.sin(angle_0)
+    kpts[1, R_WRIST, 0] = np.cos(angle_1)
+    kpts[1, R_WRIST, 1] = np.sin(angle_1)
+
+    imu = synthetic_imu_from_skeleton(kpts)
+    # gyro_z[1] should be small (the true rotation ~0.2 rad), not ~2*pi
+    assert np.abs(imu[1, 5]) < 0.5, f"gyro_z[1] = {imu[1, 5]}, expected small magnitude"

@@ -46,7 +46,8 @@ def synthetic_imu_from_skeleton(kpts):
     forearm_vec = wrist_pos - elbow_pos
     angle = np.arctan2(forearm_vec[:, 1], forearm_vec[:, 0])
     gyro_z = np.zeros((T,), dtype=np.float32)
-    gyro_z[1:] = angle[1:] - angle[:-1]
+    raw_diff = angle[1:] - angle[:-1]
+    gyro_z[1:] = np.arctan2(np.sin(raw_diff), np.cos(raw_diff))
 
     imu = np.zeros((T, 6), dtype=np.float32)
     imu[:, 0] = accel[:, 0]
