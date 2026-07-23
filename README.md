@@ -245,6 +245,37 @@ a template that never saw that subject) and see the skeleton, the existing strok
 classifier's prediction, the quality score, the per-phase/joint table, and the correction
 suggestions together. Run with `streamlit run app.py` from `skilleye/`.
 
+### 2.7 Sensor-Fusion Extension (Prototype)
+
+A team discussion identified a concrete limitation already described in Section 4.1: a
+single frontal 2D camera cannot see racket-face angle or wrist-snap dynamics at contact —
+exactly the kind of high-frequency, off-camera-plane signal a racket-mounted MPU6050
+(accelerometer + gyroscope) would capture directly. No hardware has been acquired yet, so
+this section documents an architecture prototype, not a hardware-validated result.
+
+**Architecture** (`skilleye/imu_fusion.py`): `STGCN` is refactored to expose its pooled
+pre-classifier features via `extract_features()` (`skilleye/stgcn_model.py`, backward
+compatible — every existing caller is unaffected). A small `IMUEncoder` (1D-CNN over a
+6-channel accelerometer+gyroscope stream) is fused with that skeleton branch via
+concatenation before one classification head (`FusedBeginnerExpertModel`), targeting the
+beginner/expert distinction specifically, since that is the axis this sensor is meant to
+inform.
+
+**Synthetic data, stated plainly**: because no MPU6050 hardware exists yet,
+`synthetic_imu_from_skeleton()` derives a placeholder signal from the skeleton itself
+(wrist acceleration, forearm angular velocity) rather than from a real sensor. This signal
+is, by construction, redundant with information the skeleton branch already has access to
+— so `train_beginner_expert_fusion_prototype.py`'s output is a demonstration that the
+fusion architecture and training loop work end to end, **not an accuracy result**, and its
+numbers must not be cited alongside Section 3.2's cross-validated 82.4% ± 3.8%.
+
+**Path to real data**: a documented collection protocol (MPU6050 + ESP32, ~100-200 Hz
+logging, a tap-based manual sync event between the video and IMU streams, resampled to the
+same fixed frame count skeletons already use) is in
+`docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md` — swapping
+`synthetic_imu_from_skeleton()`'s call site for a real-data loader is the only code change
+needed once hardware and recordings exist.
+
 ## 3. Results
 
 ### 3.1 Stroke Classification
@@ -392,9 +423,14 @@ Remaining work, in priority order:
 2. **Path B: coach-rated ground truth** — recruit coaches to blind-rate real swings, to be
    correlated against model output (target r > 0.7). Longest lead time item; should run in
    parallel with, not after, further technical work.
-3. **Own side-view, higher-frame-rate recordings** — required for the joint-angle-based
-   error-detection rules in Section 4.7, and expected to resolve the volley/groundstroke
-   confusion identified in Section 4.1.
+3. **Own side-view, higher-frame-rate recordings, plus real MPU6050 hardware** — required
+   for the joint-angle-based error-detection rules in Section 4.7, expected to resolve the
+   volley/groundstroke confusion identified in Section 4.1, and needed to move Section
+   2.7's sensor-fusion prototype from synthetic to real data. The collection protocol
+   (hardware, sampling rate, synchronization method) is scoped in
+   `docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md`; once real logs
+   exist, retraining and cross-validating `FusedBeginnerExpertModel` on them — following
+   the same 5-fold rigor as Section 3.2 — is the follow-up this prototype sets up for.
 4. **Path A: synthetic perturbation** of known-good motion (known joint-angle/timing offsets
    injected into skilled-athlete clips) as a complementary, coach-independent ground-truth
    source for the quality-score model.
@@ -429,6 +465,8 @@ skilleye/                          pipeline and modeling code
   smoke_check_quality_scoring.py   experts-score-higher-than-beginners sanity check (§3.3)
   generate_qualitative_figures.py  renders the stroke-gallery and quality-comparison examples (§2.6/3.3)
   app.py                           Streamlit demo UI (§2.6) -- run: streamlit run app.py
+  imu_fusion.py                    synthetic IMU signal + fusion model prototype (§2.7)
+  train_beginner_expert_fusion_prototype.py   trains the fusion prototype (synthetic data, §2.7)
   requirements.txt
   README.md                        environment setup notes (incl. GPU-specific gotchas)
 
@@ -436,6 +474,7 @@ results/
   RESULTS_SUMMARY.md                supplementary detail beyond what's inlined above
   figures/                          PNGs embedded above; regenerate with generate_figures.py / generate_qualitative_figures.py
   quality_templates/                templates.json: per-stroke expert (phase, joint) statistics (§2.6)
+  imu_fusion_prototype/             prototype-only metrics (synthetic IMU data, §2.7) -- not a benchmark
   cross_validation/                 §3 headline numbers: per-fold + aggregated metrics
   beginner_expert_check.json        v1 (§2.4): hand-crafted features + logistic regression
   beginner_expert_stgcn/            v2 (§2.4): ST-GCN, single split, trained weights + metrics
