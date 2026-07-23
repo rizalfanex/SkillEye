@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 .cache/
 .claude/
+docs/superpowers/voice010_transcript.txt
