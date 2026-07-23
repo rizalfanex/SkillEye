@@ -95,5 +95,5 @@ def generate_explanation(stroke, table, api_key=None, timeout=8.0, post_fn=reque
 
     try:
         return response.json()["choices"][0]["message"]["content"].strip()
-    except (KeyError, IndexError, TypeError) as exc:
+    except (KeyError, IndexError, TypeError, ValueError, AttributeError) as exc:
         raise LLMExplanationError(f"unexpected response shape from NVIDIA API: {exc}") from exc

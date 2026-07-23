@@ -83,3 +83,39 @@ def test_generate_explanation_raises_without_api_key(monkeypatch):
 
     with pytest.raises(LLMExplanationError):
         generate_explanation("forehand", FLAGGED_TABLE, api_key=None, post_fn=fake_post)
+
+
+class MalformedJsonResponse:
+    """Simulates a 200 response with malformed/non-JSON body."""
+    def __init__(self):
+        self.status_code = 200
+        self.text = "not valid json"
+
+    def json(self):
+        raise ValueError("Expecting value: line 1 column 1 (char 0)")
+
+
+def test_generate_explanation_raises_on_malformed_json():
+    def fake_post(url, json, headers, timeout):
+        return MalformedJsonResponse()
+
+    with pytest.raises(LLMExplanationError):
+        generate_explanation("forehand", FLAGGED_TABLE, api_key="fake-key", post_fn=fake_post)
+
+
+class NoneContentResponse:
+    """Simulates a 200 response where content field is None."""
+    def __init__(self):
+        self.status_code = 200
+        self.text = ""
+
+    def json(self):
+        return {"choices": [{"message": {"content": None}}]}
+
+
+def test_generate_explanation_raises_on_none_content():
+    def fake_post(url, json, headers, timeout):
+        return NoneContentResponse()
+
+    with pytest.raises(LLMExplanationError):
+        generate_explanation("forehand", FLAGGED_TABLE, api_key="fake-key", post_fn=fake_post)
