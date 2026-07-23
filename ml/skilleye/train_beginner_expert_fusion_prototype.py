@@ -101,6 +101,9 @@ def main():
 
     model = FusedBeginnerExpertModel(num_classes=2).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
+    # Intentionally unweighted (unlike train_beginner_expert_stgcn.py's class-frequency
+    # weighting for THETIS's 31 beginner / 24 expert imbalance): this prototype's goal is
+    # proving the training loop/architecture work, not a tuned/balanced accuracy result.
     criterion = nn.CrossEntropyLoss()
 
     history = []
@@ -139,8 +142,9 @@ def main():
         json.dump({
             "note": (
                 "PROTOTYPE ONLY: trained on synthetic skeleton-derived IMU data, not real "
-                "MPU6050 hardware. val_acc_NOT_A_BENCHMARK is a code-path sanity check "
-                "(loss should decrease over epochs), not a validated accuracy result -- see "
+                "MPU6050 hardware. The code-path sanity check is that history[i].train_loss "
+                "should decrease over epochs; val_acc_NOT_A_BENCHMARK is expected to be noisy "
+                "and is not part of that check nor a validated accuracy result -- see "
                 "docs/superpowers/specs/2026-07-23-imu-fusion-prototype-design.md."
             ),
             "history": history,

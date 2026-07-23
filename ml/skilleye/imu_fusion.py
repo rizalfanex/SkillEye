@@ -13,7 +13,7 @@ import torch
 import torch.nn as nn
 
 from quality.phases import dominant_wrist_index
-from quality.keypoints import L_WRIST, R_WRIST, L_ELBOW, R_ELBOW
+from quality.keypoints import R_WRIST, L_ELBOW, R_ELBOW
 from stgcn_model import STGCN
 
 
