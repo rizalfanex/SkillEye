@@ -11,7 +11,7 @@ demo -- do not ship a quality scorer that rates beginners above experts.
 
 Usage:
     python smoke_check_quality_scoring.py --skeletons E:/SkillEye/skeletons \
-        --templates E:/SkillEye/results/quality_templates/templates.json
+        --templates E:/SkillEye/ml/results/quality_templates/templates.json
 """
 import argparse
 import json

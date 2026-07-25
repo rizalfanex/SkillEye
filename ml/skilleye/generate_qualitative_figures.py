@@ -4,7 +4,7 @@ skeleton poses and an actual quality-scoring comparison on real clips, so the
 system's behavior is visible, not just its aggregate accuracy/score numbers.
 
 Usage:
-    python generate_qualitative_figures.py --out E:/SkillEye/results/figures
+    python generate_qualitative_figures.py --out E:/SkillEye/ml/results/figures
 """
 import argparse
 import json
@@ -68,7 +68,7 @@ def fig_quality_comparison(records, out_path, stroke, low_subject, high_subject)
     """Side-by-side skeleton + score + top suggestions for a low- vs
     high-scoring clip of the same stroke (a real qualitative example of what
     the scoring system actually says, not just an aggregate number)."""
-    with open("E:/SkillEye/results/quality_templates/templates.json") as f:
+    with open("E:/SkillEye/ml/results/quality_templates/templates.json") as f:
         templates = json.load(f)["templates"]
 
     low_r = next(r for r in records if r["stroke"] == stroke and r["subject_id"] == low_subject)
@@ -108,10 +108,10 @@ def fig_quality_comparison(records, out_path, stroke, low_subject, high_subject)
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--skeletons", default="E:/SkillEye/skeletons")
-    ap.add_argument("--out", default="E:/SkillEye/results/figures")
+    ap.add_argument("--out", default="E:/SkillEye/ml/results/figures")
     args = ap.parse_args()
 
-    with open("E:/SkillEye/results/quality_templates/templates.json") as f:
+    with open("E:/SkillEye/ml/results/quality_templates/templates.json") as f:
         val_subjects = set(json.load(f)["val_subjects"])
 
     records, _ = load_records(args.skeletons)

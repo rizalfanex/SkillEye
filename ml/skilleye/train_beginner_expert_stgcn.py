@@ -13,7 +13,7 @@ quality-score model (that still needs Path A/B ground truth per HANDOFF.md).
 
 Usage:
     python train_beginner_expert_stgcn.py --skeletons E:/SkillEye/skeletons \
-        --out E:/SkillEye/results/beginner_expert_stgcn
+        --out E:/SkillEye/ml/results/beginner_expert_stgcn
 """
 
 import argparse

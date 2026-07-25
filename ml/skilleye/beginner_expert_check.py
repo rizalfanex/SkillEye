@@ -167,7 +167,7 @@ def main():
             "coefficients": {name: float(w) for name, w in coef_report},
         },
     }
-    out_path = Path("E:/SkillEye/results/beginner_expert_check.json")
+    out_path = Path("E:/SkillEye/ml/results/beginner_expert_check.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(out, f, indent=2)

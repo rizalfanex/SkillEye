@@ -11,7 +11,7 @@ the template being compared against.
 
 Usage:
     python build_expert_templates.py --skeletons E:/SkillEye/skeletons \
-        --out E:/SkillEye/results/quality_templates/templates.json
+        --out E:/SkillEye/ml/results/quality_templates/templates.json
 """
 import argparse
 import json

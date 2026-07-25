@@ -10,7 +10,7 @@ which is the number that actually holds up to scrutiny.
 
 Usage:
     python cross_validate.py --skeletons E:/SkillEye/skeletons \
-        --out E:/SkillEye/results/cross_validation --k 5 --epochs 80
+        --out E:/SkillEye/ml/results/cross_validation --k 5 --epochs 80
 """
 
 import argparse
