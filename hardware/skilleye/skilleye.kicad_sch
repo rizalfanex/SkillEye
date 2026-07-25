@@ -1480,7 +1480,7 @@
 			(uuid "cfb89c06-c1cd-483c-aa3f-0b430420aeda")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "R11")
 					(unit 1)
@@ -1558,7 +1558,7 @@
 			(uuid "e2530ebf-8875-45a1-b450-08de88e70375")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "#PWR021")
 					(unit 1)
@@ -1636,7 +1636,7 @@
 			(uuid "8120da5d-99e4-4026-be24-950ef2cc57de")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "#PWR023")
 					(unit 1)
@@ -1714,7 +1714,7 @@
 			(uuid "a533dbaa-d48d-49c3-a1c9-4bf9bf61a270")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "#PWR022")
 					(unit 1)
@@ -1839,7 +1839,7 @@
 			(uuid "39c475d4-be80-4503-9ef7-71d318804924")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "J2")
 					(unit 1)
@@ -1917,7 +1917,7 @@
 			(uuid "3a1655e0-c7e8-4a67-98cc-89a276b1b588")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "#PWR024")
 					(unit 1)
@@ -1998,7 +1998,7 @@
 			(uuid "d6c5dcb8-57e1-40b2-9832-ebfc178928a9")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(reference "R12")
 					(unit 1)
@@ -2045,7 +2045,7 @@
 			)
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(page "3")
 				)
@@ -2091,7 +2091,7 @@
 			)
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(page "2")
 				)
@@ -2137,7 +2137,7 @@
 			)
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b"
 					(page "4")
 				)

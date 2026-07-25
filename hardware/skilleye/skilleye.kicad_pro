@@ -488,7 +488,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "skilleye_prototype.kicad_pro",
+    "filename": "skilleye.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -643,12 +643,12 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "skilleye_prototype.kicad_sch",
+        "filename": "skilleye.kicad_sch",
         "name": "Root",
         "uuid": "e922ced9-cce7-4ffa-8992-2bb79546169b"
       }
     ],
-    "used_designators": "#PWR13-27,P1,SW3,C10,J1-2,R10-14,TP1-6",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [

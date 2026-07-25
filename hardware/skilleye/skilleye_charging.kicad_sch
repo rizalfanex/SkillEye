@@ -3314,7 +3314,7 @@
 			(uuid "f87057d4-b6d9-459d-9893-2d454ad3ac86")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR01")
 					(unit 1)
@@ -3394,7 +3394,7 @@
 			(uuid "b7b5a29f-6ed0-401b-8088-4cf9a01dca32")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "R4")
 					(unit 1)
@@ -3475,7 +3475,7 @@
 			(uuid "2eb7b059-a830-4da6-b794-fb19129005a1")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "R3")
 					(unit 1)
@@ -3555,7 +3555,7 @@
 			(uuid "0efc4b4b-13d2-4d0e-a5aa-1f882fb74460")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "R2")
 					(unit 1)
@@ -3635,7 +3635,7 @@
 			(uuid "d5f90ece-ea65-4bbc-8b7a-4aa7c75d3ef2")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "C1")
 					(unit 1)
@@ -3737,7 +3737,7 @@
 			(uuid "78b4a7fb-57cd-4815-9813-4443e73b5970")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "U1")
 					(unit 1)
@@ -3827,7 +3827,7 @@
 			(uuid "f24fd48e-a24a-4778-9781-b55481e7ab36")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "D1")
 					(unit 1)
@@ -3907,7 +3907,7 @@
 			(uuid "a7a4fc11-fc35-444c-a2be-33677d1340e0")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "R5")
 					(unit 1)
@@ -3985,7 +3985,7 @@
 			(uuid "677efe70-ccc6-4827-9cfa-30686a990817")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "J1")
 					(unit 1)
@@ -4066,7 +4066,7 @@
 			(uuid "20e5f206-520e-4e7c-b8ea-8478371a8cef")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "R6")
 					(unit 1)
@@ -4144,7 +4144,7 @@
 			(uuid "947e946a-b34f-4347-aaf1-9de64070a216")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR03")
 					(unit 1)
@@ -4222,7 +4222,7 @@
 			(uuid "50809cfd-3eb9-4c15-9cfd-e521a2d95606")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR06")
 					(unit 1)
@@ -4313,7 +4313,7 @@
 			(uuid "54867a85-6620-477d-96fc-bdc1163c8f76")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "D2")
 					(unit 1)
@@ -4545,7 +4545,7 @@
 			(uuid "f44ae8b6-37f4-423c-a3fd-eadb126642d5")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "Q1")
 					(unit 1)
@@ -4623,7 +4623,7 @@
 			(uuid "36618906-4d59-4669-949e-f66e34ba222d")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR02")
 					(unit 1)
@@ -4704,7 +4704,7 @@
 			(uuid "899fa39c-9ac1-40bd-9b7f-a301446c2780")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "C3")
 					(unit 1)
@@ -4781,7 +4781,7 @@
 			(uuid "717ff612-edc7-45c3-a7e9-872f9464a851")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#FLG03")
 					(unit 1)
@@ -4859,7 +4859,7 @@
 			(uuid "32bf32b4-2734-4539-b0b4-9d6b0a89ffde")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR020")
 					(unit 1)
@@ -4939,7 +4939,7 @@
 			(uuid "ffd7410f-038e-4e24-88f9-fb6f6cf8235b")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "C2")
 					(unit 1)
@@ -5019,7 +5019,7 @@
 			(uuid "3021b919-7b84-49d5-be4b-88554523e8c7")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "R1")
 					(unit 1)
@@ -5096,7 +5096,7 @@
 			(uuid "cc2181ec-743f-432d-9268-484ca2f37d97")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR04")
 					(unit 1)
@@ -5173,7 +5173,7 @@
 			(uuid "a5be9ed5-0f52-4c43-bb10-765c5860b8bc")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#FLG04")
 					(unit 1)
@@ -5251,7 +5251,7 @@
 			(uuid "d7ab44c7-af93-4ad4-88a4-154331acc41e")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#FLG05")
 					(unit 1)
@@ -5329,7 +5329,7 @@
 			(uuid "42892580-19e3-41f6-bf69-8d6579477c67")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#FLG01")
 					(unit 1)
@@ -5407,7 +5407,7 @@
 			(uuid "abc42d7c-e55a-490d-b20d-087488dcd59a")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR05")
 					(unit 1)
@@ -5499,7 +5499,7 @@
 			(uuid "6e4a7b9d-12e7-4875-b620-69bb0078d615")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "U2")
 					(unit 1)
@@ -5577,7 +5577,7 @@
 			(uuid "9e6022ba-afa1-483f-834c-c477c48dc024")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/772fd356-96ac-42b2-8558-9fa39f1e8a4f"
 					(reference "#PWR025")
 					(unit 1)
