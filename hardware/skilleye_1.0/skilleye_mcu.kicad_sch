@@ -3053,7 +3053,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 73.66 67.31 0)
 			(hide yes)
 			(show_name no)
@@ -3093,7 +3093,7 @@
 			(uuid "c2c50221-5ef2-4be4-9548-e2fceefb288c")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "C6")
 					(unit 1)
@@ -3135,7 +3135,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 196.85 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -3175,7 +3175,7 @@
 			(uuid "fe747017-d82a-4230-8406-b7823bafec5d")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "C10")
 					(unit 1)
@@ -3217,7 +3217,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 158.75 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -3257,7 +3257,7 @@
 			(uuid "df87f731-ccd4-48df-b1f9-eaf3d2f420a5")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "R14")
 					(unit 1)
@@ -3335,7 +3335,7 @@
 			(uuid "d83b973e-50cb-4c21-8dab-ee104c75628c")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR027")
 					(unit 1)
@@ -3497,7 +3497,7 @@
 			(uuid "2542a48d-e48e-4eb9-a602-17a408580aa7")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "U4")
 					(unit 1)
@@ -3575,7 +3575,7 @@
 			(uuid "3457ebac-9feb-4acf-80ca-6d5285810c3a")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR026")
 					(unit 1)
@@ -3653,7 +3653,7 @@
 			(uuid "a2f65e5a-8216-45fc-a6fd-f518d7e26dde")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR019")
 					(unit 1)
@@ -3731,7 +3731,7 @@
 			(uuid "dd1429fe-2de3-4a44-8725-b96f19267fd7")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR015")
 					(unit 1)
@@ -3773,7 +3773,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 161.29 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -3810,7 +3810,7 @@
 			(uuid "58cbf7e4-b83e-41a9-ba49-fd2fd142c9a5")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "TP5")
 					(unit 1)
@@ -3852,7 +3852,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 255.27 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -3892,7 +3892,7 @@
 			(uuid "4c810c70-7d6c-489c-b318-6fa31b150db3")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "R10")
 					(unit 1)
@@ -3933,7 +3933,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 73.66 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -3973,7 +3973,7 @@
 			(uuid "a5e8d4bd-d32f-4f14-b0db-b8a84de04bd1")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "C7")
 					(unit 1)
@@ -4014,7 +4014,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 158.75 97.79 0)
 			(hide yes)
 			(show_name no)
@@ -4054,7 +4054,7 @@
 			(uuid "e5f83b08-2999-4819-a974-8178bd1017ad")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "R8")
 					(unit 1)
@@ -4095,7 +4095,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 143.51 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -4132,7 +4132,7 @@
 			(uuid "0eb788b4-b59e-4f62-be5e-ec6c8a8bfbd5")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "TP1")
 					(unit 1)
@@ -4174,7 +4174,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 200.66 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -4214,7 +4214,7 @@
 			(uuid "1dfe718e-1baa-4711-adb8-bdb504939c34")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "C9")
 					(unit 1)
@@ -4256,7 +4256,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 54.61 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -4296,7 +4296,7 @@
 			(uuid "30a87165-863c-4fb8-9b0e-96f1ba8813a0")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "R7")
 					(unit 1)
@@ -4510,7 +4510,7 @@
 			(uuid "fcb631ca-6ba6-442d-bf14-a776b8353105")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "U5")
 					(unit 1)
@@ -4588,7 +4588,7 @@
 			(uuid "f93f2d3a-b141-4f46-b1cc-ab7575ef76d6")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR017")
 					(unit 1)
@@ -4667,7 +4667,7 @@
 			(uuid "900f2f78-33b7-4b05-b47a-1ce662b1a5f2")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "SW1")
 					(unit 1)
@@ -4709,7 +4709,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 158.75 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -4749,7 +4749,7 @@
 			(uuid "ab467b81-be50-442e-82b1-9afc7a87e0f1")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "R13")
 					(unit 1)
@@ -4791,7 +4791,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 77.47 87.63 0)
 			(hide yes)
 			(show_name no)
@@ -4828,7 +4828,7 @@
 			(uuid "9a9354df-21cc-4c85-a67b-e63d075f9cfc")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "TP3")
 					(unit 1)
@@ -4869,7 +4869,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 54.61 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -4909,7 +4909,7 @@
 			(uuid "fead8c5b-2f63-4863-a5f1-91f7a02f75b4")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "C8")
 					(unit 1)
@@ -4950,7 +4950,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 143.51 80.01 0)
 			(hide yes)
 			(show_name no)
@@ -4987,7 +4987,7 @@
 			(uuid "665eb3af-91f6-4f28-a518-e536b2610f6e")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "TP2")
 					(unit 1)
@@ -5065,7 +5065,7 @@
 			(uuid "e180e757-1ae2-4e2a-91f8-7f34641a2af1")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR012")
 					(unit 1)
@@ -5143,7 +5143,7 @@
 			(uuid "8200288c-c331-4d83-a446-cefcc62f288d")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR016")
 					(unit 1)
@@ -5184,7 +5184,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 77.47 90.17 0)
 			(hide yes)
 			(show_name no)
@@ -5221,7 +5221,7 @@
 			(uuid "2b574378-4210-43c2-814f-61e4ccd02714")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "TP4")
 					(unit 1)
@@ -5299,7 +5299,7 @@
 			(uuid "d44c0348-8f86-4e87-9eda-6e8c333abcfe")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR09")
 					(unit 1)
@@ -5377,7 +5377,7 @@
 			(uuid "e3ca7a58-023d-404d-8e8b-fba8977d0604")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR010")
 					(unit 1)
@@ -5454,7 +5454,7 @@
 			(uuid "7ec97edc-8712-4c9a-a5f0-7117217607b1")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR018")
 					(unit 1)
@@ -5531,7 +5531,7 @@
 			(uuid "959a74ba-7738-4e86-945a-d01f1e50a2b5")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR013")
 					(unit 1)
@@ -5609,7 +5609,7 @@
 			(uuid "60493d33-4015-4da3-a90c-a81c5a49035a")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR014")
 					(unit 1)
@@ -5651,7 +5651,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 158.75 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -5691,7 +5691,7 @@
 			(uuid "f5ec06c0-9b93-4f66-a633-cf5cb45842c4")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "R9")
 					(unit 1)
@@ -5769,7 +5769,7 @@
 			(uuid "64d683ba-a468-4781-96f3-f9bd7a73a40c")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "#PWR011")
 					(unit 1)
@@ -5847,7 +5847,7 @@
 			(uuid "3dde8f0d-ec6b-454b-aee5-15ed27337732")
 		)
 		(instances
-			(project "skilleye"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/eeb8364d-fb88-4868-b54f-166d620b4179"
 					(reference "SW2")
 					(unit 1)

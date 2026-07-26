@@ -240,7 +240,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": "1.1"
+      "sch_revision": "2.0"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -488,7 +488,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "skilleye.kicad_pro",
+    "filename": "skilleye_2.0.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -643,9 +643,9 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "skilleye.kicad_sch",
+        "filename": "skilleye_2.0.kicad_sch",
         "name": "Root",
-        "uuid": "e922ced9-cce7-4ffa-8992-2bb79546169b"
+        "uuid": "d8a7564c-1896-4459-8d91-f745b165ebeb"
       }
     ],
     "used_designators": "",
@@ -653,20 +653,8 @@
   },
   "sheets": [
     [
-      "e922ced9-cce7-4ffa-8992-2bb79546169b",
+      "d8a7564c-1896-4459-8d91-f745b165ebeb",
       "Root"
-    ],
-    [
-      "772fd356-96ac-42b2-8558-9fa39f1e8a4f",
-      "Charging"
-    ],
-    [
-      "331d9fae-dc89-4e08-93fe-26225e9367f3",
-      "Regulator"
-    ],
-    [
-      "eeb8364d-fb88-4868-b54f-166d620b4179",
-      "MCU"
     ]
   ],
   "text_variables": {},
