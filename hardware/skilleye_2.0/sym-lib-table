@@ -1,0 +1,6 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "Seeed_Studio_XIAO_Series") (type "KiCad") (uri "${KIPRJMOD}/Seeed_Studio_XIAO/Seeed_Studio_XIAO_Series.kicad_sym") (options "") (descr ""))
+	(lib (name "GY-521") (type "KiCad") (uri "${KIPRJMOD}/GY-521/GY-521.kicad_sym") (options "") (descr ""))
+	(lib (name "TP4056_breakout") (type "KiCad") (uri "${KIPRJMOD}/TP4056_breakout/TP4056_breakout.kicad_sym") (options "") (descr ""))
+)

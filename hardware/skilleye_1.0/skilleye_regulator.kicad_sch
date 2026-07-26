@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Regulator")
-		(date "2026-07-21")
-		(rev "1.0")
+		(date "2026-07-23")
+		(rev "1.1")
 		(company "National Taipei University of Technology - Dept. of EECS")
 		(comment 1 "SkillEye")
 		(comment 2 "Designer: Purit Hongjirakul")
@@ -837,7 +837,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 152.4 105.41 0)
 			(hide yes)
 			(show_name no)
@@ -877,7 +877,7 @@
 			(uuid "3ba4217d-03aa-4d6b-aac0-8ac202f28042")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/331d9fae-dc89-4e08-93fe-26225e9367f3"
 					(reference "C5")
 					(unit 1)
@@ -955,7 +955,7 @@
 			(uuid "e9fc4a76-5e70-435f-bce7-6e7c2e23760b")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/331d9fae-dc89-4e08-93fe-26225e9367f3"
 					(reference "#PWR08")
 					(unit 1)
@@ -1033,7 +1033,7 @@
 			(uuid "d8a13d72-26ee-4695-99c7-c1c2aed0a631")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/331d9fae-dc89-4e08-93fe-26225e9367f3"
 					(reference "#PWR07")
 					(unit 1)
@@ -1074,7 +1074,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 139.7 105.41 0)
 			(hide yes)
 			(show_name no)
@@ -1114,7 +1114,7 @@
 			(uuid "f65d2156-1bb0-475b-8eee-7fd5f472129b")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/331d9fae-dc89-4e08-93fe-26225e9367f3"
 					(reference "C4")
 					(unit 1)
@@ -1203,7 +1203,7 @@
 			(uuid "0c2ff691-1f67-4861-a0ff-d636eb468caf")
 		)
 		(instances
-			(project "skilleye_prototype"
+			(project "skilleye_1.0"
 				(path "/e922ced9-cce7-4ffa-8992-2bb79546169b/331d9fae-dc89-4e08-93fe-26225e9367f3"
 					(reference "U3")
 					(unit 1)
