@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Skilleye")
-		(date "2026-07-25")
-		(rev "2.0")
+		(date "2026-07-27")
+		(rev "2.1")
 		(company "National Taipei University of Technology - Dept. of EECS")
 		(comment 1 "SkillEye")
 		(comment 2 "Designer: Purit Hongjirakul")
@@ -1106,6 +1106,196 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Switch:SW_SPDT"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "SW"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SW_SPDT"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Switch, single pole double throw"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "switch single-pole double-throw spdt ON-ON"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SW_SPDT_0_1"
+				(circle
+					(center -2.032 0)
+					(radius 0.4572)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.651 0.254) (xy 1.651 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 2.54)
+					(radius 0.4572)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 -2.54)
+					(radius 0.4572)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SW_SPDT_1_1"
+				(rectangle
+					(start -3.175 3.81)
+					(end 3.175 -3.81)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at 5.08 2.54 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -2.54 180)
+					(length 2.54)
+					(name "C"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "TP4056_breakout:TP4056_breakout"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1681,6 +1871,10 @@
 		(uuid "a1b42bd6-661d-46b6-8b74-b13ba644a9fe")
 	)
 	(no_connect
+		(at 99.06 124.46)
+		(uuid "0ee46402-aacd-4321-a18b-59765321e0c2")
+	)
+	(no_connect
 		(at 133.35 80.01)
 		(uuid "2560f3f9-8839-4452-b522-826be6ffc3eb")
 	)
@@ -1707,10 +1901,6 @@
 	(no_connect
 		(at 118.11 102.87)
 		(uuid "850c6c80-f8e6-4e42-bfc8-a7cbb544b44f")
-	)
-	(no_connect
-		(at 222.25 99.06)
-		(uuid "8adb0f04-d04a-4f45-823e-44205cce948f")
 	)
 	(no_connect
 		(at 148.59 80.01)
@@ -1745,10 +1935,6 @@
 		(uuid "b470bf0a-69b6-47ad-93c9-15464d9f7cff")
 	)
 	(no_connect
-		(at 118.11 91.44)
-		(uuid "b9def179-a73e-4f79-9b7a-a1d2174d025c")
-	)
-	(no_connect
 		(at 129.54 80.01)
 		(uuid "cd7c0cbf-8375-4f5c-9ef6-4e12920640f8")
 	)
@@ -1763,16 +1949,6 @@
 	(no_connect
 		(at 163.83 114.3)
 		(uuid "f09e9e44-421f-4665-b215-a791b70f0e5b")
-	)
-	(wire
-		(pts
-			(xy 95.25 124.46) (xy 137.16 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "030737be-c729-4f65-a759-4ded8e6f594e")
 	)
 	(wire
 		(pts
@@ -1836,6 +2012,16 @@
 	)
 	(wire
 		(pts
+			(xy 101.6 96.52) (xy 101.6 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d708562-71ee-466c-b544-5f1ce2c150a3")
+	)
+	(wire
+		(pts
 			(xy 81.28 114.3) (xy 82.55 114.3)
 		)
 		(stroke
@@ -1843,16 +2029,6 @@
 			(type default)
 		)
 		(uuid "3804daad-4e24-4c90-9187-84482e52b546")
-	)
-	(wire
-		(pts
-			(xy 95.25 96.52) (xy 95.25 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "38d1ce89-e771-4f34-8862-0865bc20f5f6")
 	)
 	(wire
 		(pts
@@ -1916,6 +2092,16 @@
 	)
 	(wire
 		(pts
+			(xy 104.14 124.46) (xy 137.16 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9fc5bbfc-234d-4131-989d-addfd791ffc8")
+	)
+	(wire
+		(pts
 			(xy 223.52 111.76) (xy 223.52 113.03)
 		)
 		(stroke
@@ -1966,16 +2152,6 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 96.52) (xy 95.25 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d866d853-118a-4f73-ab3f-51ac63c14a60")
-	)
-	(wire
-		(pts
 			(xy 184.15 99.06) (xy 191.77 99.06)
 		)
 		(stroke
@@ -1983,6 +2159,16 @@
 			(type default)
 		)
 		(uuid "e53478a0-0582-4911-84e9-9b36380d7b93")
+	)
+	(wire
+		(pts
+			(xy 90.17 96.52) (xy 101.6 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebb67b80-fa37-4f1a-8087-504a7d3cbf82")
 	)
 	(wire
 		(pts
@@ -1994,6 +2180,26 @@
 		)
 		(uuid "f2b94612-5301-4225-a810-ccfc55b4c1ad")
 	)
+	(label "IMU_INT"
+		(at 222.25 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0e605781-f334-47b1-828b-d40bf8016ff0")
+	)
+	(label "VBAT_RAW"
+		(at 92.71 96.52 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "31f889c7-b9d6-47c8-bafe-01564814980a")
+	)
 	(label "SDA"
 		(at 191.77 106.68 180)
 		(effects
@@ -2004,6 +2210,26 @@
 		)
 		(uuid "9d06ff96-d991-4205-888d-c077aee329ef")
 	)
+	(label "IMU_INT"
+		(at 118.11 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b69823f6-7687-4183-a3f7-261463c9dbb3")
+	)
+	(label "VBAT_SW"
+		(at 121.92 124.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "be61284d-2ede-4574-8acb-21f7829acff6")
+	)
 	(label "SCL"
 		(at 191.77 104.14 180)
 		(effects
@@ -2013,6 +2239,16 @@
 			(justify right bottom)
 		)
 		(uuid "ce56a670-6c4d-4c00-a66d-538a8a97e480")
+	)
+	(label "BATT-"
+		(at 82.55 114.3 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d24aa6b9-24dc-4ba6-9788-f0c2b315256f")
 	)
 	(label "SDA"
 		(at 118.11 106.68 180)
@@ -2033,6 +2269,16 @@
 			(justify right bottom)
 		)
 		(uuid "e01b06aa-53ba-442d-b923-abe67947bb2a")
+	)
+	(label "BATT+"
+		(at 72.39 114.3 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "fd518419-ab33-4b0d-92e3-c478d1bedfbb")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -2656,6 +2902,91 @@
 			(project "skilleye_2.0"
 				(path "/d8a7564c-1896-4459-8d91-f745b165ebeb"
 					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_SPDT")
+		(at 101.6 119.38 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "84e25e04-5bb3-4f39-98eb-b7f095963ea8")
+		(property "Reference" "SW1"
+			(at 106.68 118.1099 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SW_SPDT"
+			(at 106.68 120.6499 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q"
+			(at 101.6 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Switch, single pole double throw"
+			(at 101.6 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "d7980e9a-c275-4fc3-9b70-82d5d4046966")
+		)
+		(pin "1"
+			(uuid "8271db5a-8d48-478d-babe-755344b2f502")
+		)
+		(pin "3"
+			(uuid "c4c2fa89-5c4b-4c7b-8e8d-b6142c8dcdde")
+		)
+		(instances
+			(project "skilleye_2.0"
+				(path "/d8a7564c-1896-4459-8d91-f745b165ebeb"
+					(reference "SW1")
 					(unit 1)
 				)
 			)
