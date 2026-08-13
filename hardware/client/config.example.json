@@ -1,0 +1,5 @@
+{
+  "_comment": "Copy to config.local.json (gitignored) and edit. 192.168.4.1 is the ESP32 softAP's fixed gateway address, so you only need this file if you change TCP_PORT in secrets.h or put the device on a different network.",
+  "host": "192.168.4.1",
+  "port": 3333
+}

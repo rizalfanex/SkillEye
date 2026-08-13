@@ -24,3 +24,7 @@ fp-info-cache
 *-rescue.dcm
 *.kicad_prl
 *.history
+
+# Device credentials / addresses -- copy the .example files and fill these in.
+hardware/firmware/secrets.h
+hardware/client/config.local.json
