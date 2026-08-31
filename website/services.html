@@ -86,12 +86,15 @@
                 <p class="lang-zh" style="margin-top: 10px;">點擊此處開啟您的前置鏡頭或攝影機，直接在球場上進行 AI 即時動作偵測與分析</p>
                 <p class="lang-en lang-hidden" style="margin-top: 10px;">Click here to open your front camera or webcam for live real-time AI swing feedback</p>
             </div>
-            <div class="service-card">
+            <!-- This card described the report but had no onclick, so it looked
+                 like a button next to two that work and did nothing when pressed.
+                 It now opens the session summary, which is the report it means. -->
+            <div class="service-card" style="cursor:pointer;" onclick="window.location.href='analysis.html#sessionSection'">
                 <div class="service-icon">📊</div>
-                <h3 class="lang-zh">詳細報告</h3>
-                <h3 class="lang-en lang-hidden">Detailed Report</h3>
-                <p class="lang-zh">正確度評分、品質分析、錯誤偵測與改進建議</p>
-                <p class="lang-en lang-hidden">Accuracy scores, error detection & tips</p>
+                <h3 class="lang-zh">練習紀錄總結</h3>
+                <h3 class="lang-en lang-hidden">Session Summary</h3>
+                <p class="lang-zh" style="margin-top: 10px;">點擊此處查看累積的球拍數據：穩定度、疲勞趨勢，以及作為修正基準的最好兩球</p>
+                <p class="lang-en lang-hidden" style="margin-top: 10px;">Click here for your accumulated racket data: consistency, fatigue trend, and the two best strokes to correct the rest</p>
             </div>
         </div>
 
