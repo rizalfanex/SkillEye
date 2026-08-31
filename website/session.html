@@ -1,0 +1,340 @@
+?<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tennis Coach - 練�?紀??/title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; color:#1a1a2e; background:#fcfcfc; line-height:1.6; }
+        .container { max-width:1100px; margin:0 auto; padding:0 24px; }
+
+        nav {
+            position:fixed; top:0; width:100%; background:rgba(255,255,255,0.95);
+            backdrop-filter:blur(12px); border-bottom:1px solid rgba(0,0,0,0.04);
+            z-index:1000; padding:0 24px;
+        }
+        nav .container { display:flex; align-items:center; justify-content:space-between; height:56px; }
+        .nav-logo { font-weight:800; font-size:1.25rem; letter-spacing:-0.5px; color:#2d6a4f; text-decoration:none; white-space:nowrap; }
+        .nav-links { display:flex; gap:20px; list-style:none; align-items:center; }
+        .nav-links a { text-decoration:none; color:#1a1a2e; font-size:0.85rem; font-weight:500; transition:color 0.2s; white-space:nowrap; padding:4px 0; border-bottom:2px solid transparent; }
+        .nav-links a:hover { color:#2d6a4f; }
+        .nav-links a.active { color:#2d6a4f; border-bottom-color:#2d6a4f; }
+        .lang-toggle { background:#e8f5e9; border:none; padding:5px 12px; border-radius:20px; font-size:0.8rem; font-weight:600; cursor:pointer; color:#2d6a4f; }
+        .lang-toggle:hover { background:#c8e6c9; }
+        .mobile-menu-btn { display:none; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#1a1a2e; }
+        .nav-links.open { display:flex; flex-direction:column; position:absolute; top:56px; left:0; right:0; background:rgba(255,255,255,0.98); backdrop-filter:blur(12px); padding:20px; gap:14px; border-bottom:1px solid rgba(0,0,0,0.04); }
+
+        section { padding:100px 0 80px; min-height:100vh; background:#f7faf8; }
+        .section-title { font-size:2.2rem; font-weight:800; margin-bottom:12px; letter-spacing:-1px; text-align:center; color:#2d6a4f; }
+        .section-sub { font-size:1rem; color:#555; max-width:680px; line-height:1.6; margin:0 auto 32px; text-align:center; }
+
+        .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; margin-bottom:24px; }
+        .toolbar select, .toolbar button {
+            font-family:inherit; font-size:0.82rem; font-weight:600; border-radius:20px;
+            padding:8px 16px; cursor:pointer; border:1px solid #c8e6c9; background:#fff; color:#2d6a4f;
+        }
+        .toolbar button.primary { background:#2d6a4f; color:#fff; border-color:#2d6a4f; }
+        .toolbar button.danger { color:#c0392b; border-color:#f0c4bd; }
+        .toolbar button:hover { filter:brightness(0.96); }
+
+        .empty { background:#fff; border-radius:20px; padding:48px 32px; text-align:center; box-shadow:0 6px 24px rgba(0,0,0,0.04); }
+        .empty-icon { font-size:3.5rem; margin-bottom:14px; }
+        .empty h3 { color:#2d6a4f; margin-bottom:10px; }
+        .empty p { font-size:0.88rem; color:#666; max-width:520px; margin:0 auto 18px; }
+        .cta { display:inline-block; background:#2d6a4f; color:#fff; text-decoration:none; padding:11px 26px; border-radius:30px; font-size:0.88rem; font-weight:600; }
+
+        .takes-strip { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:20px; }
+        .take-chip { background:#fff; border:1px solid #e3efe7; border-radius:14px; padding:8px 14px; font-size:0.76rem; color:#374151; }
+        .take-chip strong { color:#2d6a4f; }
+
+        /* Trend chart */
+        .trend-wrap { background:#fff; border-radius:16px; padding:18px 20px; margin-bottom:16px; border-left:4px solid #2d6a4f; box-shadow:0 4px 16px rgba(0,0,0,0.05); }
+        .trend-wrap h4 { font-size:0.98rem; color:#2d6a4f; margin-bottom:12px; font-weight:700; }
+
+        footer { border-top:1px solid rgba(0,0,0,0.05); padding:32px 0; text-align:center; font-size:0.85rem; color:#888; }
+        .lang-hidden { display:none !important; }
+
+        @media (max-width: 768px) {
+            .nav-links { display:none; }
+            .mobile-menu-btn { display:block; }
+            .section-title { font-size:1.8rem; }
+            section { padding:80px 0 60px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="siteNav"></div>
+<script src="js/skilleye-nav.js"></script>
+
+<section>
+    <div class="container">
+        <h2 class="section-title">
+            <span class="lang-zh">練�?紀?�總�?/span>
+            <span class="lang-en lang-hidden">Session summary</span>
+        </h2>
+        <p class="section-sub">
+            <span class="lang-zh">?��??�穩定度?�疲?�趨?��?以�?作為修正?��??��?好兩?�。全?�由已儲存�??��??�測?��??��?算——�?使用?�述統�?，�??�任何�??�學習模?��?/span>
+            <span class="lang-en lang-hidden">Consistency across strokes, fatigue trend, and the two best strokes used as a reference to correct the rest. Computed from your saved racket-sensor data using descriptive statistics only -- no machine-learning model.</span>
+        </p>
+
+        <div class="toolbar" id="toolbar" style="display:none;">
+            <label style="font-size:0.8rem; color:#555; font-weight:600;">
+                <span class="lang-zh">依�??��??�篩?��?</span><span class="lang-en lang-hidden">Filter by stroke:</span>
+            </label>
+            <select id="strokeFilter" onchange="render()"></select>
+            <button onclick="exportSession()">
+                <span class="lang-zh">�??�出 JSON</span><span class="lang-en lang-hidden">�?Export JSON</span>
+            </button>
+            <button class="primary" onclick="location.href='analysis.html?sensor=1'">
+                <span class="lang-zh">+ ?��?一次�?�?/span><span class="lang-en lang-hidden">+ Add a take</span>
+            </button>
+            <button class="danger" onclick="wipeSession()">
+                <span class="lang-zh">?? 清除練�?紀??/span><span class="lang-en lang-hidden">?? Clear session</span>
+            </button>
+        </div>
+
+        <div class="takes-strip" id="takesStrip"></div>
+        <div id="sessionBody"></div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p class="lang-zh">© 2026 AI Tennis Coach. ?��?學者�??��??�費 AI 網�??�練</p>
+        <p class="lang-en lang-hidden">© 2026 AI Tennis Coach. Free AI coach for tennis beginners</p>
+    </div>
+</footer>
+
+<script src="js/skilleye-imu.js"></script>
+<script src="js/skilleye-session.js"></script>
+<script src="js/skilleye-report.js"></script>
+<script>
+    // ---- language toggle, matching the rest of the site ----
+    const langToggle = document.getElementById('langToggle');
+    let currentLang = localStorage.getItem('aiTennisLang') || 'zh';
+    function setLang(lang) {
+        currentLang = lang;
+        try { localStorage.setItem('aiTennisLang', lang); } catch (e) { /* private mode */ }
+        document.querySelectorAll('.lang-zh').forEach(el => { el.classList.toggle('lang-hidden', lang !== 'zh'); });
+        document.querySelectorAll('.lang-en').forEach(el => { el.classList.toggle('lang-hidden', lang !== 'en'); });
+        langToggle.textContent = lang === 'zh' ? 'EN' : '中�?';
+        document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+    }
+    langToggle.addEventListener('click', () => setLang(currentLang === 'zh' ? 'en' : 'zh'));
+
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    mobileBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const STROKE_LABELS = {
+        forehand: '�????(Forehand)', backhand: '?��???(Backhand)', serve: '?��? (Serve)', smash: '高�?殺�? (Smash)',
+        forehand_volley: '�???��? (Forehand Volley)', backhand_volley: '?��??��? (Backhand Volley)'
+    };
+
+    let session = SkillEyeSession.loadSession();
+
+    /**
+     * Consistency trend chart: one bar per stroke, in recording order, for the
+     * metric the user is most likely to recognise. Inline SVG so the page stays
+     * dependency-free like the rest of the site.
+     *
+     * A horizontal band marks +/-1 standard deviation around the mean, which is
+     * what "consistent" actually looks like -- bars staying inside the band.
+     */
+    function trendChart(swings, metricKey) {
+        const metric = SkillEyeSession.METRICS.filter(m => m.key === metricKey)[0];
+        const vals = swings.map(metric.getter);
+        const usable = vals.filter(v => typeof v === 'number' && isFinite(v));
+        if (usable.length < 2) {
+            return '<div class="trend-wrap"><h4>' + SkillEyeReport.bi(metric.zh, metric.en) + '</h4>'
+                + '<p style="font-size:0.82rem;color:#9ca3af;">'
+                + SkillEyeReport.bi('資�?不足，無法繪製趨?��?, 'Not enough data to chart a trend.')
+                + '</p></div>';
+        }
+
+        const mean = SkillEyeSession.util.mean(usable);
+        const sd = SkillEyeSession.util.stdev(usable) || 0;
+        const lo = Math.min.apply(null, usable), hi = Math.max.apply(null, usable);
+        const pad = (hi - lo) * 0.25 || Math.abs(mean * 0.1) || 1;
+        const yMin = Math.min(lo, mean - sd) - pad, yMax = Math.max(hi, mean + sd) + pad;
+
+        const W = 640, H = 190, padL = 46, padR = 12, padT = 14, padB = 30;
+        const plotW = W - padL - padR, plotH = H - padT - padB;
+        const y = v => padT + plotH * (1 - (v - yMin) / (yMax - yMin));
+        const n = vals.length;
+        const bw = Math.max(6, Math.min(38, plotW / n * 0.6));
+
+        let bars = '';
+        vals.forEach((v, i) => {
+            const cx = padL + plotW * (i + 0.5) / n;
+            if (!(typeof v === 'number' && isFinite(v))) {
+                bars += '<text x="' + cx.toFixed(1) + '" y="' + (padT + plotH / 2).toFixed(1)
+                    + '" text-anchor="middle" font-size="10" fill="#cbd5e1">n/a</text>';
+                return;
+            }
+            const inBand = sd > 0 && Math.abs(v - mean) <= sd;
+            const yv = y(v), y0 = y(Math.max(yMin, Math.min(yMax, mean)));
+            const top = Math.min(yv, y0), h = Math.max(2, Math.abs(yv - y0));
+            bars += '<rect x="' + (cx - bw / 2).toFixed(1) + '" y="' + top.toFixed(1)
+                + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="3" fill="'
+                + (inBand ? '#74c69d' : '#d97706') + '"><title>#' + (i + 1) + ': ' + v.toFixed(1) + ' ' + metric.unit + '</title></rect>';
+            bars += '<text x="' + cx.toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="9" fill="#9ca3af">'
+                + (i + 1) + '</text>';
+        });
+
+        const bandTop = y(mean + sd), bandH = Math.max(1, y(mean - sd) - y(mean + sd));
+        return '<div class="trend-wrap">'
+            + '<h4>' + SkillEyeReport.bi(metric.zh, metric.en) + ' <span style="font-weight:500;color:#6b7280;font-size:0.82rem;">('
+            + mean.toFixed(1) + ' ' + metric.unit + ', CV ' + (SkillEyeSession.util.cv(usable)).toFixed(1) + '%)</span></h4>'
+            + '<div style="overflow-x:auto;"><svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;min-width:340px;height:auto;" role="img">'
+            + '<rect x="' + padL + '" y="' + bandTop.toFixed(1) + '" width="' + plotW + '" height="' + bandH.toFixed(1)
+            + '" fill="#e8f5e9"/>'
+            + '<line x1="' + padL + '" y1="' + y(mean).toFixed(1) + '" x2="' + (W - padR) + '" y2="' + y(mean).toFixed(1)
+            + '" stroke="#2d6a4f" stroke-width="1.2" stroke-dasharray="4 3"/>'
+            + '<text x="' + (padL - 6) + '" y="' + (y(mean) + 3).toFixed(1) + '" text-anchor="end" font-size="9" fill="#2d6a4f">'
+            + mean.toFixed(0) + '</text>'
+            + bars
+            + '</svg></div>'
+            + '<p style="font-size:0.74rem;color:#6b7280;margin-top:6px;line-height:1.5;">'
+            + SkillEyeReport.bi(
+                '淺�??�帶?�平?��?±1 標�?差。落?�帶?��?綠色?��?�?��?�現?�良好�??��?橘色?��??�是?�離你自己模式�??��?,
+                'The pale band is ±1 standard deviation around the mean. Green bars inside it are repeatable strokes; orange bars fall outside your own pattern.')
+            + '</p></div>';
+    }
+
+    function render() {
+        SkillEyeReport.injectStyles(document);
+        const body = document.getElementById('sessionBody');
+        const strip = document.getElementById('takesStrip');
+        const toolbar = document.getElementById('toolbar');
+
+        const takes = session.takes || [];
+        if (!takes.length) {
+            toolbar.style.display = 'none';
+            strip.innerHTML = '';
+            body.innerHTML = '<div class="empty">'
+                + '<div class="empty-icon">?��</div>'
+                + '<h3>' + SkillEyeReport.bi('尚無練�?紀??, 'No session data yet') + '</h3>'
+                + '<p>' + SkillEyeReport.bi(
+                    '請�?往?��??��??��??��?影�? + ?��??�測?�」模式�?載入影�???*_imu.csv�?
+                    + '?��??��??�練習�??�」。累積幾次�?影�?，本?�就?�顯示�??�穩定度�?
+                    + '以�??�兩?�值�??��??��???,
+                    'Go to the Analysis page, pick "Camera + racket sensor", load a video with its *_imu.csv, '
+                    + 'then hit "Save to session". After a few takes this page will show how consistent you were '
+                    + 'and which two strokes are worth treating as your reference.')
+                + '</p>'
+                + '<a class="cta" href="analysis.html?sensor=1">'
+                + SkillEyeReport.bi('?��??��? ??, 'Start an analysis ??) + '</a>'
+                + (session.storageUnavailable
+                    ? '<p style="font-size:0.78rem;color:#c0392b;margin-top:16px;">'
+                      + SkillEyeReport.bi('?�覽?��??��??��??��?，�?此無法�??�練習�?,
+                          'Local storage is blocked in this browser, so sessions cannot be recorded.') + '</p>'
+                    : '')
+                + '</div>';
+            setLang(currentLang);
+            return;
+        }
+
+        toolbar.style.display = 'flex';
+
+        // stroke filter
+        const strokes = SkillEyeSession.sessionStrokes(session);
+        const sel = document.getElementById('strokeFilter');
+        const chosen = sel.value;
+        if (sel.dataset.built !== String(strokes.length)) {
+            sel.innerHTML = '<option value="">' + (currentLang === 'zh' ? '?�部' : 'All') + '</option>'
+                + strokes.map(s => '<option value="' + s + '">' + (STROKE_LABELS[s] || s) + '</option>').join('');
+            sel.dataset.built = String(strokes.length);
+            if (chosen) sel.value = chosen;
+        }
+
+        strip.innerHTML = takes.map((t, i) =>
+            '<div class="take-chip"><strong>' + SkillEyeReport.esc(t.label || ('Take ' + (i + 1))) + '</strong> · '
+            + (t.swings || []).length + SkillEyeReport.bi(' ??, ' strokes')
+            + (t.stroke ? ' · ' + SkillEyeReport.esc(STROKE_LABELS[t.stroke] || t.stroke) : '')
+            + (t.sync ? ' · ' + SkillEyeReport.bi('?�移 ', 'offset ') + t.sync.offset.toFixed(2) + 's' : '')
+            + '</div>').join('');
+
+        const swings = SkillEyeSession.allSwings(session, sel.value ? { stroke: sel.value } : null);
+        if (swings.length < 2) {
+            body.innerHTML = '<div class="se-card"><p>' + SkillEyeReport.bi(
+                '?��?篩選條件下至少�?�?2 ?��?, 'Need at least 2 strokes in the current filter.')
+                + '</p></div>';
+            setLang(currentLang);
+            return;
+        }
+
+        const result = SkillEyeSession.analyzeSession(swings, {});
+
+        // One block per stroke type. Pooling stroke types would average a
+        // forehand's face angle against a backhand's opposite-signed one, which
+        // is not a measurement -- analyzeSession() splits them, and the page
+        // renders the split rather than hiding it.
+        const blocks = result.mixedStrokes
+            ? result.strokes
+            : [{ stroke: (swings[0] && swings[0].stroke) || null, analysis: result }];
+
+        let html = '';
+        if (result.mixedStrokes) {
+            html += '<div class="se-card se-card-accent"><h4>'
+                + SkillEyeReport.bi('?�� ?�次練�??�含多種?��?類�?', '?�� Session contains several stroke types')
+                + '</h4><p style="font-size:0.84rem;color:#374151;line-height:1.6;">'
+                + SkillEyeReport.bi(result.zh, result.en) + '</p></div>';
+        }
+
+        blocks.forEach(b => {
+            const list = b.stroke
+                ? swings.filter(s => s.stroke === b.stroke)
+                : swings.filter(s => !s.stroke);
+            const a = b.analysis;
+            if (result.mixedStrokes) {
+                html += '<h3 style="font-size:1.05rem;color:#2d6a4f;font-weight:800;margin:26px 0 12px;">'
+                    + SkillEyeReport.esc(STROKE_LABELS[b.stroke] || b.stroke || '?��?記�???/ Unlabelled')
+                    + ' <span style="font-weight:500;color:#6b7280;font-size:0.85rem;">(' + list.length
+                    + SkillEyeReport.bi(' ??, ' strokes') + ')</span></h3>';
+            }
+            html += SkillEyeReport.consistencyCard(a.consistency)
+                + trendChart(list, 'peakGyroDps')
+                + trendChart(list, 'closeOpenDeg')
+                + trendChart(list, 'backswingMs')
+                + SkillEyeReport.directionCard(a.directionCheck)
+                + SkillEyeReport.fatigueCard(a.fatigue)
+                + SkillEyeReport.bestPairCard(a.bestPair, a.coaching);
+        });
+
+        body.innerHTML = html;
+        setLang(currentLang);
+    }
+
+    function exportSession() {
+        const blob = new Blob([JSON.stringify(session, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'skilleye-session.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    function wipeSession() {
+        const msg = currentLang === 'zh'
+            ? '確�?要刪?��??�已?��??�練習�??��?？此?��??��?復�???
+            : 'Delete all saved session data? This cannot be undone.';
+        if (!window.confirm(msg)) return;
+        SkillEyeSession.clearSession();
+        session = SkillEyeSession.loadSession();
+        render();
+    }
+
+    setLang(currentLang);
+    render();
+</script>
+
+</body>
+</html>
+
