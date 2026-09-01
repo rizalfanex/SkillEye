@@ -27,12 +27,11 @@ def build_explanation_prompt(stroke, table):
 
     if not flagged:
         return (
-            f"A student just hit a {stroke_label}. Compared to an expert template, "
-            "no significant deviations were flagged in any phase (backswing, contact, "
-            "follow-through) or joint. Write one short, encouraging paragraph (2-3 "
-            "sentences) telling the student their technique matched the expert "
-            "template well on this swing. Do not invent any specific deviation or "
-            "correction -- there isn't one."
+            f"A student just hit a {stroke_label}. The result shows no significant deviations "
+            "in the backswing, contact, or follow-through. Write one short, encouraging "
+            "paragraph (2-3 sentences) in simple language that a beginner can understand. "
+            "Tell the student what they did well. Do not mention expert templates, ranges, "
+            "measurements, scores, or statistics, and do not invent a specific correction."
         )
 
     lines = []
@@ -40,16 +39,18 @@ def build_explanation_prompt(stroke, table):
         phase_label = PHASE_DISPLAY_NAMES[row["phase"]]
         joint_label = JOINT_DISPLAY_NAMES[row["joint"]]
         direction = "above" if row["z"] > 0 else "below"
-        lines.append(f"- {phase_label}: {joint_label} is {direction} the typical expert range")
+        lines.append(f"- {phase_label}: the student's {joint_label} movement needs attention ({direction})")
 
     deviations = "\n".join(lines)
     return (
-        f"A student just hit a {stroke_label}. Compared to an expert template, the "
-        f"following deviations were flagged:\n{deviations}\n\n"
-        "Write one coherent, encouraging paragraph (3-5 sentences) a coach might say "
-        "to the student, combining these specific deviations into natural coaching "
-        "advice. Use ONLY the deviations listed above -- do not mention any other "
-        "joint or phase, and do not invent any deviation not listed."
+        f"A student just hit a {stroke_label}. The following movement areas need attention:\n"
+        f"{deviations}\n\n"
+        "Write one coherent, encouraging paragraph (3-5 sentences) in simple, "
+        "beginner-friendly language. Explain what the student should try to do with "
+        "their body and why it helps. Use ONLY the movement areas listed above -- do "
+        "not mention any other joint or phase, and do not invent a new problem. Do not "
+        "mention expert templates, typical ranges, z-scores, angles, measurements, or "
+        "statistics. Avoid technical anatomy terms unless you explain them plainly."
     )
 
 

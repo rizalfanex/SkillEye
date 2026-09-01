@@ -30,27 +30,27 @@ PHASE_DISPLAY_NAMES = {
     "contact": "contact",
     "follow_through": "follow-through",
 }
-# joint -> (tip when the clip's angle is smaller than the template, tip when larger)
+# joint -> (plain-language tip when the clip's angle is smaller, tip when larger)
 JOINT_TIPS = {
     "left_elbow": (
-        "try extending your left arm more",
-        "try relaxing your left arm, it's more extended than typical",
+        "try extending your left elbow and arm more",
+        "try relaxing your left elbow and arm a little",
     ),
     "right_elbow": (
-        "try extending your right arm more",
-        "try relaxing your right arm, it's more extended than typical",
+        "try extending your right elbow and arm more",
+        "try relaxing your right elbow and arm a little",
     ),
     "left_knee": (
         "try bending your left knee more for a lower stance",
-        "try standing a bit taller, your left knee is more bent than typical",
+        "try standing a bit taller and relaxing your left knee",
     ),
     "right_knee": (
         "try bending your right knee more for a lower stance",
-        "try standing a bit taller, your right knee is more bent than typical",
+        "try standing a bit taller and relaxing your right knee",
     ),
     "trunk_rotation": (
         "try rotating your trunk more through the shot",
-        "your trunk is rotating more than typical -- make sure that's controlled, not overswinging",
+        "try making your trunk rotation smoother and more controlled",
     ),
 }
 
@@ -58,9 +58,7 @@ JOINT_TIPS = {
 def suggestion_text(joint, phase, z):
     direction = 1 if z > 0 else 0  # 0 = clip's angle smaller than template, 1 = larger
     tip = JOINT_TIPS[joint][direction]
-    comparison = "above" if z > 0 else "below"
-    return (f"{PHASE_DISPLAY_NAMES[phase].capitalize()}: {JOINT_DISPLAY_NAMES[joint]} is "
-            f"{comparison} the typical expert range -- {tip}.")
+    return f"During the {PHASE_DISPLAY_NAMES[phase]}, {tip}."
 
 
 def score_clip(kpts, stroke_class, templates):

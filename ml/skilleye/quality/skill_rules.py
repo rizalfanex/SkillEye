@@ -98,9 +98,8 @@ def check_volley_swing_effort(peak_accel_mps2):
     amateur_mean, _ = AYDIN_AYDEMIR_VOLLEY["amateur"]
     midpoint = (elite_mean + amateur_mean) / 2.0
     flagged = peak_accel_mps2 > midpoint
-    note = ("Swing effort leans toward the higher-force pattern associated "
-            "with less controlled volleys -- try a shorter, more compact "
-            "swing rather than swinging harder.") if flagged else None
+    note = ("Your swing uses a lot of force. Try a shorter, more compact swing "
+        "instead of swinging harder, so you can control the racket more easily.") if flagged else None
     return {"flagged": flagged, "note": note}
 
 
@@ -135,10 +134,9 @@ def evaluate_backhand_volley_skill_rules(kpts):
         if check_shoulder_pelvis_twist_reversal(backswing_twist, contact_twist):
             flags.append({
                 "rule": "shoulder_pelvis_twist_reversal", "phase": None,
-                "note": ("Shoulder-pelvis separation reverses direction between backswing "
-                         "and contact -- Katsumi et al. (2026) found this pattern in "
-                         "less-skilled backhand volleys (separation established late, "
-                         "rather than held through the swing)."),
+                "note": ("Your shoulders and hips change direction between the backswing "
+                         "and contact. Try turning your shoulders a little earlier and "
+                         "keep that turn steady as you move forward."),
             })
 
     if backswing_pelvic is not None and contact_pelvic is not None:
@@ -147,9 +145,9 @@ def evaluate_backhand_volley_skill_rules(kpts):
             if is_excessive:
                 flags.append({
                     "rule": "excessive_pelvic_rotation", "phase": phase,
-                    "note": (f"Pelvic rotation at {phase} is on the higher side for a "
-                             f"backhand volley -- Katsumi et al. (2026) found less-skilled "
-                             f"players over-rotate the pelvis relative to skilled players."),
+                    "note": (f"During the {phase}, your hips turn more than needed for "
+                             "this backhand volley. Try a smaller, controlled hip turn "
+                             "and let your shoulders guide the swing."),
                 })
 
     return {"flags": flags}

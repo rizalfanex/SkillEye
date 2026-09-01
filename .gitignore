@@ -24,6 +24,7 @@ fp-info-cache
 *-rescue.dcm
 *.kicad_prl
 *.history
+hardware/skilleye_2.0/skilleye_2.0-backups
 
 # Device credentials / addresses -- copy the .example files and fill these in.
 hardware/firmware/secrets.h
@@ -34,3 +35,7 @@ hardware/client/config.local.json
 # JSON, and extracted skeletons alongside them are small and tracked.
 hardware/client/newresult/*.mp4
 hardware/client/result/*.mp4
+
+# video stuff
+docs/videos/*
+!docs/videos/README.md

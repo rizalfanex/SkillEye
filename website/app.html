@@ -137,6 +137,7 @@
         /* Drills & Gear layout */
         .list-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f3f1; }
         .list-item:last-child { border-bottom: none; }
+        .joint-highlight { background:#fff0a8; color:#174c38; padding:1px 4px; border-radius:4px; font-weight:800; }
         .list-icon { font-size: 1.5rem; display: flex; align-items: center; }
         .list-body h4 { font-size: 0.85rem; font-weight: 700; color: #1a1a2e; }
         .list-body p { font-size: 0.75rem; color: #666; margin-top: 2px; }
@@ -449,7 +450,7 @@
         <div id="ai-home-sub" style="text-align:center; padding:24px 16px;">
             <div style="font-size:4rem; margin-bottom:16px;">🤖</div>
             <h3 class="lang-zh" style="font-size:1.3rem; font-weight:800; color:#2d6a4f; margin-bottom:8px;">AI 動作分析與評估</h3>
-            <h3 class="lang-en lang-hidden" style="font-size:1.3rem; font-weight:800; color:#2d6a4f; margin-bottom:8px;">AI Swing Analysis</h3>
+            <h3 class="lang-en lang-hidden" style="font-size:1.3rem; font-weight:800; color:#2d6a4f; margin-bottom:8px;">AI-Powered Tennis Swing Analysis</h3>
             <p class="lang-zh" style="font-size:0.85rem; color:#666; margin-bottom:24px; line-height:1.6;">本模組採用先進的 RTMPose 姿態骨架擷取與 ST-GCN 深度學習分類器，為您提供最精準的揮拍正確度與動力鏈評估。</p>
             <p class="lang-en lang-hidden" style="font-size:0.85rem; color:#666; margin-bottom:24px; line-height:1.6;">Powered by RTMPose skeleton model and ST-GCN networks to evaluate swing consistency and quality.</p>
             
@@ -977,6 +978,26 @@
     };
     function mPair(key, map) { return map[key] || [key, key]; }
 
+    function beginnerSuggestion(text) {
+        text = String(text);
+        const match = text.match(/^(Backswing|Contact|Follow-through): (left shoulder|right shoulder|left elbow|right elbow|left knee|right knee|trunk rotation) is (above|below) the typical expert range/);
+        if (match) {
+            const [, phase, joint, direction] = match;
+            const tips = {
+                "left shoulder": ["try raising your left shoulder and arm more through the shot", "try keeping your left shoulder and arm a little lower"],
+                "right shoulder": ["try raising your right shoulder and arm more through the shot", "try keeping your right shoulder and arm a little lower"],
+                "left elbow": ["try extending your left elbow and arm more", "try relaxing your left elbow and arm a little"],
+                "right elbow": ["try extending your right elbow and arm more", "try relaxing your right elbow and arm a little"],
+                "left knee": ["try bending your left knee more for a lower stance", "try standing a bit taller and relaxing your left knee"],
+                "right knee": ["try bending your right knee more for a lower stance", "try standing a bit taller and relaxing your right knee"],
+                "trunk rotation": ["try rotating your trunk more through the shot", "try making your trunk rotation smoother and more controlled"]
+            };
+            text = `During the ${phase.toLowerCase()}, ${tips[joint][direction === "above" ? 1 : 0]}.`;
+        }
+        const escaped = text.replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
+        return escaped.replace(/\b(left|right) (shoulder|elbow|knee)\b|\btrunk rotation\b/gi, '<span class="joint-highlight">$&</span>');
+    }
+
     function showMobileError(err) {
         const card = document.getElementById('aiResult');
         card.innerHTML = `
@@ -1023,7 +1044,7 @@
 
         let tips = '';
         if (data.suggestions && data.suggestions.length > 0) {
-            tips = data.suggestions.map(s => `<li style="font-size:0.75rem; color:#eee; padding:3px 0;">${s}</li>`).join('');
+            tips = data.suggestions.map(s => `<li style="font-size:0.75rem; color:#eee; padding:3px 0;">${beginnerSuggestion(s)}</li>`).join('');
         } else {
             tips = '<li style="font-size:0.75rem; color:#eee;">姿勢非常標準，繼續保持！/ Great form!</li>';
         }

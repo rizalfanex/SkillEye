@@ -44,17 +44,17 @@
       {
         "rule": "shoulder_pelvis_twist_reversal",
         "phase": null,
-        "note": "Shoulder-pelvis separation reverses direction between backswing and contact -- Katsumi et al. (2026) found this pattern in less-skilled backhand volleys (separation established late, rather than held through the swing)."
+        "note": "Your shoulders and hips change direction between the backswing and contact. Try turning your shoulders a little earlier and keep that turn steady as you move forward."
       },
       {
         "rule": "excessive_pelvic_rotation",
         "phase": "backswing",
-        "note": "Pelvic rotation at backswing is on the higher side for a backhand volley -- Katsumi et al. (2026) found less-skilled players over-rotate the pelvis relative to skilled players."
+        "note": "During the backswing, your hips turn more than needed for this backhand volley. Try a smaller, controlled hip turn and let your shoulders guide the swing."
       },
       {
         "rule": "excessive_pelvic_rotation",
         "phase": "contact",
-        "note": "Pelvic rotation at contact is on the higher side for a backhand volley -- Katsumi et al. (2026) found less-skilled players over-rotate the pelvis relative to skilled players."
+        "note": "During the contact, your hips turn more than needed for this backhand volley. Try a smaller, controlled hip turn and let your shoulders guide the swing."
       }
     ],
     "imu": {
@@ -66,7 +66,7 @@
     },
     "volley_effort": {
       "flagged": true,
-      "note": "Swing effort leans toward the higher-force pattern associated with less controlled volleys -- try a shorter, more compact swing rather than swinging harder."
+      "note": "Your swing uses a lot of force. Try a shorter, more compact swing instead of swinging harder, so you can control the racket more easily."
     }
   },
   "forehand_volley": {
@@ -86,7 +86,7 @@
     },
     "volley_effort": {
       "flagged": true,
-      "note": "Swing effort leans toward the higher-force pattern associated with less controlled volleys -- try a shorter, more compact swing rather than swinging harder."
+      "note": "Your swing uses a lot of force. Try a shorter, more compact swing instead of swinging harder, so you can control the racket more easily."
     }
   },
   "serve": {

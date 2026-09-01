@@ -31,6 +31,11 @@ if str(HARDWARE_CLIENT_DIR) not in sys.path:
     sys.path.insert(0, str(HARDWARE_CLIENT_DIR))
 from imu_client import IMUStream, StreamStats, iter_rows, load_config
 
+HARDWARE_CLIENT_DIR = Path(__file__).resolve().parents[2] / "hardware" / "client"
+if str(HARDWARE_CLIENT_DIR) not in sys.path:
+    sys.path.insert(0, str(HARDWARE_CLIENT_DIR))
+from imu_client import IMUStream, StreamStats, iter_rows, load_config
+
 APP_DIR = Path(__file__).parent.resolve()
 TEMPLATES_PATH = str(APP_DIR / "../results/quality_templates/templates.json")
 STROKE_MODEL_PATH = str(APP_DIR / "../results/stroke_classifier_v2/best_model.pt")
