@@ -46,24 +46,138 @@
         .chibi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
         .chibi-card { background:#fff; border-radius:20px; padding:24px 16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,0.04); transition:transform 0.2s; }
         .chibi-card:hover { transform:translateY(-4px); }
-        .chibi { width:100px; height:120px; margin:0 auto 12px; position:relative; }
-        .chibi-head { width:40px; height:40px; background:#fde8d0; border-radius:50%; margin:0 auto; position:relative; }
+        /* ---- Warm-up figures -------------------------------------------
+           Each limb is a two-segment chain: the div is the upper arm/thigh
+           hinging at the shoulder/hip, and its ::after is the forearm/shin
+           hinging at the elbow/knee. A .pose-* class sets those angles for
+           one exercise. The old markup only had three arm variants and two
+           leg variants between twelve exercises, so several cards drew the
+           identical figure -- Torso Twists was pixel-for-pixel Arm Circles,
+           and Ankle Rolls, Hamstring and Wrist Stretch were all the same
+           plain standing pose. */
+        .chibi { width:100px; height:124px; margin:0 auto 12px; position:relative; }
+        .chibi-head { width:40px; height:40px; background:#fde8d0; border-radius:50%; margin:0 auto; position:relative; z-index:2; }
         .chibi-eye { width:4px; height:5px; background:#333; border-radius:50%; position:absolute; top:16px; }
         .chibi-eye.l { left:10px; } .chibi-eye.r { right:10px; }
         .chibi-mouth { width:8px; height:4px; border-bottom:2px solid #c97; border-radius:0 0 8px 8px; position:absolute; bottom:10px; left:50%; margin-left:-4px; }
         .chibi-body { width:30px; height:40px; background:#2d6a4f; border-radius:12px 12px 6px 6px; margin:4px auto 0; position:relative; }
-        .chibi-arm { width:6px; height:30px; background:#fde8d0; border-radius:4px; position:absolute; top:6px; }
-        .chibi-arm.l { left:-10px; transform:rotate(-30deg); transform-origin:top center; }
-        .chibi-arm.r { right:-10px; transform:rotate(30deg); transform-origin:top center; }
-        .chibi-arm.up.l { transform:rotate(-120deg); height:28px; }
-        .chibi-arm.up.r { transform:rotate(120deg); height:28px; }
-        .chibi-arm.side.l { transform:rotate(-80deg); }
-        .chibi-arm.side.r { transform:rotate(80deg); }
-        .chibi-leg { width:8px; height:24px; background:#fde8d0; border-radius:4px; position:absolute; bottom:-20px; }
-        .chibi-leg.l { left:2px; transform:rotate(-10deg); }
-        .chibi-leg.r { right:2px; transform:rotate(10deg); }
-        .chibi-leg.kick.l { transform:rotate(-40deg); }
-        .chibi-leg.kick.r { transform:rotate(40deg); }
+
+        .chibi-arm { width:6px; height:22px; background:#fde8d0; border-radius:4px;
+                     position:absolute; top:6px; transform-origin:top center; }
+        .chibi-arm.l { left:-7px; transform:rotate(14deg); }
+        .chibi-arm.r { right:-7px; transform:rotate(-14deg); }
+        .chibi-arm::after { content:""; position:absolute; left:0; top:19px;
+                            width:6px; height:19px; background:#fde8d0; border-radius:4px;
+                            transform-origin:top center; }
+
+        .chibi-leg { width:8px; height:22px; background:#fde8d0; border-radius:4px;
+                     position:absolute; top:34px; transform-origin:top center; }
+        .chibi-leg.l { left:3px; transform:rotate(6deg); }
+        .chibi-leg.r { right:3px; transform:rotate(-6deg); }
+        .chibi-leg::after { content:""; position:absolute; left:0; top:19px;
+                            width:8px; height:19px; background:#fde8d0; border-radius:4px;
+                            transform-origin:top center; }
+
+        /* Angles below follow the screen, not the maths: a limb at 0deg hangs
+           straight down, POSITIVE swings it toward the viewer's left, negative
+           toward the right. A ::after angle is relative to its own upper
+           segment, so 0deg means the elbow/knee is straight. */
+
+        /* 1. Jumping jacks -- arms up in a V, legs spread wide. */
+        .pose-jack .chibi-arm.l { transform:rotate(152deg); }
+        .pose-jack .chibi-arm.r { transform:rotate(-152deg); }
+        .pose-jack .chibi-leg.l { transform:rotate(24deg); }
+        .pose-jack .chibi-leg.r { transform:rotate(-24deg); }
+
+        /* 2. Arm circles -- one arm sweeping overhead, the other swinging low. */
+        .pose-circle .chibi-arm.l { transform:rotate(132deg); }
+        .pose-circle .chibi-arm.l::after { transform:rotate(28deg); }
+        .pose-circle .chibi-arm.r { transform:rotate(-44deg); }
+        .pose-circle .chibi-arm.r::after { transform:rotate(-28deg); }
+
+        /* 3. Leg swings -- arms out for balance, one leg swung clear of the floor. */
+        .pose-swing .chibi-arm.l { transform:rotate(92deg); }
+        .pose-swing .chibi-arm.r { transform:rotate(-92deg); }
+        .pose-swing .chibi-leg.l { transform:rotate(64deg); }
+        .pose-swing .chibi-leg.l::after { transform:rotate(-12deg); }
+        .pose-swing .chibi-leg.r { transform:rotate(-5deg); }
+
+        /* 4. Walking lunges -- front knee stacked over the foot, back leg long. */
+        .pose-lunge { transform:translateY(6px); }
+        .pose-lunge .chibi-leg.l { transform:rotate(48deg); }
+        .pose-lunge .chibi-leg.l::after { transform:rotate(-42deg); }
+        .pose-lunge .chibi-leg.r { transform:rotate(-32deg); }
+        .pose-lunge .chibi-leg.r::after { transform:rotate(4deg); }
+        .pose-lunge .chibi-arm.l { transform:rotate(16deg); }
+        .pose-lunge .chibi-arm.l::after { transform:rotate(-34deg); }
+        .pose-lunge .chibi-arm.r { transform:rotate(-16deg); }
+        .pose-lunge .chibi-arm.r::after { transform:rotate(34deg); }
+
+        /* 5. High knees -- thigh up to horizontal, shin hanging, running arms. */
+        .pose-knees .chibi-leg.l { transform:rotate(86deg); }
+        .pose-knees .chibi-leg.l::after { transform:rotate(-78deg); }
+        .pose-knees .chibi-leg.r { transform:rotate(-5deg); }
+        .pose-knees .chibi-arm.l { transform:rotate(74deg); }
+        .pose-knees .chibi-arm.l::after { transform:rotate(-104deg); }
+        .pose-knees .chibi-arm.r { transform:rotate(-74deg); }
+        .pose-knees .chibi-arm.r::after { transform:rotate(104deg); }
+
+        /* 6. Butt kicks -- heel folded up behind the thigh. */
+        .pose-kicks .chibi-leg.l { transform:rotate(-12deg); }
+        .pose-kicks .chibi-leg.l::after { transform:rotate(155deg); }
+        .pose-kicks .chibi-leg.r { transform:rotate(-6deg); }
+        .pose-kicks .chibi-arm.l { transform:rotate(30deg); }
+        .pose-kicks .chibi-arm.l::after { transform:rotate(-66deg); }
+        .pose-kicks .chibi-arm.r { transform:rotate(-34deg); }
+        .pose-kicks .chibi-arm.r::after { transform:rotate(62deg); }
+
+        /* 7. Torso twists -- both arms carried across to one side, trunk narrowed. */
+        .pose-twist .chibi-body { width:24px; }
+        .pose-twist .chibi-arm.l { transform:rotate(104deg); }
+        .pose-twist .chibi-arm.l::after { transform:rotate(26deg); }
+        .pose-twist .chibi-arm.r { transform:rotate(66deg); }
+        .pose-twist .chibi-arm.r::after { transform:rotate(32deg); }
+        .pose-twist .chibi-leg.l { transform:rotate(14deg); }
+        .pose-twist .chibi-leg.r { transform:rotate(-14deg); }
+
+        /* 8. Ankle rolls -- hands on hips, one foot rolled up onto the toe. */
+        .pose-ankle .chibi-arm.l { transform:rotate(32deg); }
+        .pose-ankle .chibi-arm.l::after { transform:rotate(-96deg); }
+        .pose-ankle .chibi-arm.r { transform:rotate(-32deg); }
+        .pose-ankle .chibi-arm.r::after { transform:rotate(96deg); }
+        .pose-ankle .chibi-leg.l { transform:rotate(4deg); }
+        .pose-ankle .chibi-leg.r { transform:rotate(-24deg); }
+        .pose-ankle .chibi-leg.r::after { transform:rotate(46deg); height:13px; }
+
+        /* 9. Quad stretch -- balanced on one leg, hand holding the rear foot. */
+        .pose-quad .chibi-leg.l { transform:rotate(4deg); }
+        .pose-quad .chibi-leg.r { transform:rotate(-16deg); }
+        .pose-quad .chibi-leg.r::after { transform:rotate(158deg); }
+        .pose-quad .chibi-arm.r { transform:rotate(-26deg); }
+        .pose-quad .chibi-arm.r::after { transform:rotate(-52deg); }
+        .pose-quad .chibi-arm.l { transform:rotate(88deg); }
+        .pose-quad .chibi-arm.l::after { transform:rotate(14deg); }
+
+        /* 10. Hamstring stretch -- heel out in front, both hands reaching for it. */
+        .pose-ham .chibi-leg.l { transform:rotate(46deg); }
+        .pose-ham .chibi-leg.r { transform:rotate(-8deg); }
+        .pose-ham .chibi-arm.l { transform:rotate(52deg); }
+        .pose-ham .chibi-arm.l::after { transform:rotate(-24deg); }
+        .pose-ham .chibi-arm.r { transform:rotate(28deg); }
+        .pose-ham .chibi-arm.r::after { transform:rotate(-18deg); }
+
+        /* 11. Shoulder stretch -- one arm drawn across the chest, the other cradling it. */
+        .pose-shoulder .chibi-arm.l { transform:rotate(-98deg); }
+        .pose-shoulder .chibi-arm.l::after { transform:rotate(-6deg); }
+        .pose-shoulder .chibi-arm.r { transform:rotate(-58deg); }
+        .pose-shoulder .chibi-arm.r::after { transform:rotate(124deg); }
+
+        /* 12. Wrist stretch -- both hands brought together in front of the chest. */
+        .pose-wrist .chibi-arm.l { transform:rotate(-70deg); }
+        .pose-wrist .chibi-arm.l::after { transform:rotate(-36deg); }
+        .pose-wrist .chibi-arm.r { transform:rotate(70deg); }
+        .pose-wrist .chibi-arm.r::after { transform:rotate(36deg); }
+
         .chibi-label { font-size:0.8rem; font-weight:600; color:#2d6a4f; margin-top:4px; }
         .chibi-desc { font-size:0.72rem; color:#666; margin-top:2px; }
 
@@ -100,22 +214,8 @@
 </head>
 <body>
 
-<nav>
-    <div class="container">
-        <a href="index.html" class="nav-logo">🎾 AI Tennis Coach</a>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="index.html" class="lang-zh">首頁</a><a href="index.html" class="lang-en lang-hidden">Home</a></li>
-            <li><a href="about.html" class="lang-zh">關於</a><a href="about.html" class="lang-en lang-hidden">About</a></li>
-            <li><a href="training.html" class="lang-zh active">訓練</a><a href="training.html" class="lang-en lang-hidden active">Training</a></li>
-            <li><a href="gear.html" class="lang-zh">裝備</a><a href="gear.html" class="lang-en lang-hidden">Gear</a></li>
-            <li><a href="services.html" class="lang-zh">服務</a><a href="services.html" class="lang-en lang-hidden">AI</a></li>
-            <li><a href="contact.html" class="lang-zh">聯絡</a><a href="contact.html" class="lang-en lang-hidden">Contact</a></li>
-            <li><a href="simulator.html" style="background:#2d6a4f;color:#fff;padding:6px 12px;border-radius:12px;text-decoration:none;" class="lang-zh">📱 模擬器</a><a href="simulator.html" style="background:#2d6a4f;color:#fff;padding:6px 12px;border-radius:12px;text-decoration:none;" class="lang-en lang-hidden">📱 Simulator</a></li>
-            <li><button class="lang-toggle" id="langToggle">EN</button></li>
-        </ul>
-        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-    </div>
-</nav>
+<div id="siteNav"></div>
+<script src="js/skilleye-nav.js"></script>
 
 <div class="subnav">
     <div class="container">
@@ -136,42 +236,42 @@
         <div class="warmup-type lang-en lang-hidden">🔥 Dynamic Warm-up (Before Play)</div>
         <div class="chibi-grid">
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm up l"></div><div class="chibi-arm up r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-jack"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">開合跳</div><div class="chibi-label lang-en lang-hidden">Jumping Jacks</div>
                 <div class="chibi-desc lang-zh">提高心率，活化全身</div><div class="chibi-desc lang-en lang-hidden">Raise heart rate</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm side l"></div><div class="chibi-arm side r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-circle"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">手臂畫圈</div><div class="chibi-label lang-en lang-hidden">Arm Circles</div>
                 <div class="chibi-desc lang-zh">活化肩膀關節</div><div class="chibi-desc lang-en lang-hidden">Loosen shoulders</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg kick l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-swing"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">擺腿</div><div class="chibi-label lang-en lang-hidden">Leg Swings</div>
                 <div class="chibi-desc lang-zh">放鬆髖關節與大腿</div><div class="chibi-desc lang-en lang-hidden">Loosen hips</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg kick r"></div></div></div>
+                <div class="chibi pose-lunge"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">弓箭步</div><div class="chibi-label lang-en lang-hidden">Walking Lunges</div>
                 <div class="chibi-desc lang-zh">伸展大腿與核心</div><div class="chibi-desc lang-en lang-hidden">Stretch thighs</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm up l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-knees"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">高抬腿</div><div class="chibi-label lang-en lang-hidden">High Knees</div>
                 <div class="chibi-desc lang-zh">提升髖部靈活度</div><div class="chibi-desc lang-en lang-hidden">Hip mobility</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg kick l"></div><div class="chibi-leg kick r"></div></div></div>
+                <div class="chibi pose-kicks"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">後踢腿</div><div class="chibi-label lang-en lang-hidden">Butt Kicks</div>
                 <div class="chibi-desc lang-zh">活化大腿後側</div><div class="chibi-desc lang-en lang-hidden">Hamstrings</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm side l"></div><div class="chibi-arm side r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-twist"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">轉體運動</div><div class="chibi-label lang-en lang-hidden">Torso Twists</div>
                 <div class="chibi-desc lang-zh">放鬆腰部與脊椎</div><div class="chibi-desc lang-en lang-hidden">Loosen waist</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-ankle"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">腳踝繞環</div><div class="chibi-label lang-en lang-hidden">Ankle Rolls</div>
                 <div class="chibi-desc lang-zh">預防腳踝扭傷</div><div class="chibi-desc lang-en lang-hidden">Prevent injury</div>
             </div>
@@ -181,22 +281,22 @@
         <div class="warmup-type lang-en lang-hidden" style="margin-top:20px;">🧊 Static Stretching (After Play)</div>
         <div class="chibi-grid">
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm side l"></div><div class="chibi-arm r"></div><div class="chibi-leg kick l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-quad"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">大腿前側拉伸</div><div class="chibi-label lang-en lang-hidden">Quad Stretch</div>
                 <div class="chibi-desc lang-zh">站姿單腳向後拉</div><div class="chibi-desc lang-en lang-hidden">Standing pull</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-ham"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">大腿後側拉伸</div><div class="chibi-label lang-en lang-hidden">Hamstring Stretch</div>
                 <div class="chibi-desc lang-zh">坐姿前彎觸腳</div><div class="chibi-desc lang-en lang-hidden">Seated fold</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm side l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-shoulder"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">肩膀拉伸</div><div class="chibi-label lang-en lang-hidden">Shoulder Stretch</div>
                 <div class="chibi-desc lang-zh">手臂橫跨胸前</div><div class="chibi-desc lang-en lang-hidden">Arm across chest</div>
             </div>
             <div class="chibi-card">
-                <div class="chibi"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
+                <div class="chibi pose-wrist"><div class="chibi-head"><div class="chibi-eye l"></div><div class="chibi-eye r"></div><div class="chibi-mouth"></div></div><div class="chibi-body"><div class="chibi-arm l"></div><div class="chibi-arm r"></div><div class="chibi-leg l"></div><div class="chibi-leg r"></div></div></div>
                 <div class="chibi-label lang-zh">手腕拉伸</div><div class="chibi-label lang-en lang-hidden">Wrist Stretch</div>
                 <div class="chibi-desc lang-zh">手掌向後輕壓</div><div class="chibi-desc lang-en lang-hidden">Gentle push</div>
             </div>
